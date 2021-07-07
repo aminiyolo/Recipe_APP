@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <div style={{ backgroundColor: "#FDFDFD" }}>
         <NavBar />
-        <div style={{ paddingTop: "30px" }}>
+        <div style={{ paddingTop: "16px", background: "#FFF" }}>
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route path="/login" component={LoginPage} />

@@ -1,6 +1,9 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import dayjs from "dayjs";
+import { withRouter } from "react-router-dom";
 
 import { Form, Input, Button } from "antd";
 
@@ -58,6 +61,21 @@ function RegisterPage(props) {
             .oneOf([Yup.ref("password"), null], "Passwords must match")
             .required("Confirm Password is required"),
         })}
+        onSubmit={(values) => {
+          let data = {
+            email: values.email,
+            password: values.password,
+            name: values.name,
+            image: `http://gravatar.com/avatar/${dayjs(
+              new Date()
+            ).unix()}?d=identicon`,
+          };
+          axios.post("/api/users/register", data).then((response) => {
+            if (response.data.success) {
+              props.history.push("/login");
+            }
+          });
+        }}
       >
         {(props) => {
           const {
@@ -187,4 +205,4 @@ function RegisterPage(props) {
   );
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);

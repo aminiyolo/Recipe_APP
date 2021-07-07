@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Icon, Input, Button, Typography } from "antd";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+import useSWR from "swr";
+import fetcher from "../../components/fetcher";
 
 const { Title } = Typography;
 
 const LoginPage = (props) => {
   const [formErrorMessage, setFormErrorMessage] = useState("");
+  const { data, err, revalidate } = useSWR("/api/users", fetcher);
+
+  if (data === undefined) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight: "800",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div
@@ -31,6 +51,17 @@ const LoginPage = (props) => {
             .min(6, "Password must be at least 6 characters")
             .required("Password is required"),
         })}
+        onSubmit={(values) => {
+          let data = {
+            email: values.email,
+            password: values.password,
+          };
+          axios.post("/api/users/login", data).then((response) => {
+            if (response.data.success) {
+              props.history.push("/");
+            }
+          });
+        }}
       >
         {(props) => {
           const {
@@ -107,13 +138,6 @@ const LoginPage = (props) => {
                 )}
 
                 <Form.Item>
-                  {/* <a
-                    className="login-form-forgot"
-                    href="/reset_user"
-                    style={{ float: "right" }}
-                  >
-                    forgot password
-                  </a> */}
                   <div>
                     <Button
                       type="primary"
@@ -136,4 +160,4 @@ const LoginPage = (props) => {
     </div>
   );
 };
-export default LoginPage;
+export default withRouter(LoginPage);

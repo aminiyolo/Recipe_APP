@@ -1,0 +1,37 @@
+import React from "react";
+import getNumber from "./getNumber";
+
+const Quote = () => {
+  const number = getNumber();
+
+  const quotes = [
+    [
+      "A crust eaten in peace is better than a banquet partaken in anxiety",
+      "Aesop",
+    ],
+    [
+      "Part of the secret of success in life is to eat what you like and let the food fight it out inside",
+      "Mark Twain",
+    ],
+    [
+      "The discovery of a new dish does more for human happiness than the discovery of a new star",
+      "Jean Anthelme Brillat-Savarin",
+    ],
+    [
+      "You don't have to cook fancy or complicated masterpieces - just good food from fresh ingredients",
+      "Julia Child",
+    ],
+    [
+      "Eat breakfast like a king, lunch like a prince, and dinner like a pauper",
+      "Adelle Davis",
+    ],
+  ];
+  return (
+    <React.Fragment>
+      <p>{quotes[`${number}`][0]}</p>
+      <p>- {quotes[`${number}`][1]}</p>
+    </React.Fragment>
+  );
+};
+
+export default React.memo(Quote);
