@@ -3,7 +3,7 @@ const router = express.Router();
 const { User } = require("../model/user");
 const { auth } = require("../middleware/auth");
 
-router.post("/users/register", (req, res) => {
+router.post("/register", (req, res) => {
   const user = new User(req.body);
   user.save((err, doc) => {
     if (err) {
@@ -13,7 +13,7 @@ router.post("/users/register", (req, res) => {
   });
 });
 
-router.post("/users/login", (req, res) => {
+router.post("/login", (req, res) => {
   // Look for a requested ID in a database
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
@@ -38,14 +38,15 @@ router.post("/users/login", (req, res) => {
   });
 });
 
-router.get("/users/logout", auth, (req, res) => {
+router.get("/logout", auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({ success: true });
   });
 });
 
-router.get("/users", auth, (req, res) => {
+router.get("/user", auth, (req, res) => {
+  if (err) res.json({ err });
   return res.json(req.user);
 });
 
