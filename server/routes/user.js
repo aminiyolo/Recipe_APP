@@ -46,7 +46,6 @@ router.get("/logout", auth, (req, res) => {
 });
 
 router.get("/user", auth, (req, res) => {
-  if (err) res.json({ err });
   return res.json(req.user);
 });
 
