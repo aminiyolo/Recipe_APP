@@ -5,6 +5,8 @@ import NavBar from "./components/Navbar";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import RegisterPage from "./layout/RegisterPage";
 import SelectedPage from "./layout/SelectedPage";
+import FavoritePage from "./layout/favoritePage";
+import Detail from "./layout/favoritePage/detail";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
             <Route path="/category/:category" component={SelectedPage} />
+            <Route exact path="/favorite" component={FavoritePage} />
+            <Route path="/favorite/:id" component={Detail} />
           </Switch>
         </div>
       </div>

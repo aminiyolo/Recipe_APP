@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col } from "antd";
 
-const SearchResults = ({ recipe, image }) => {
+const SearchResults = ({ recipe, onOpenModal }) => {
   return (
     <Col
       lg={8}
-      md={16}
+      md={12}
       xs={24}
+      onClick={() => onOpenModal(recipe)}
       style={{
         cursor: "pointer",
         borderRadius: "16px",
@@ -24,15 +25,15 @@ const SearchResults = ({ recipe, image }) => {
             width: "100%",
             borderRadius: "16px 16px 0 0",
           }}
-          src={image}
+          src={recipe.strMealThumb}
           alt={`${recipe.strMeal} img`}
         />
         <p
           style={{
-            fontSize: "16px",
-            fontWeight: "730",
-            color: "black",
-            padding: "12px 0",
+            font: "message-box",
+            fontSize: "18px",
+            color: "#202020",
+            padding: "14px 0",
           }}
         >
           {recipe.strMeal}

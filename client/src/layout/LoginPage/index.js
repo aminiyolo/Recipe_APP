@@ -11,7 +11,7 @@ const { Title } = Typography;
 
 const LoginPage = (props) => {
   const [formErrorMessage, setFormErrorMessage] = useState("");
-  const { data, err, revalidate } = useSWR("/api/users", fetcher);
+  const { data } = useSWR("/api/users/user", fetcher);
 
   if (data === undefined) {
     return (
@@ -57,7 +57,7 @@ const LoginPage = (props) => {
             password: values.password,
           };
           axios.post("/api/users/login", data).then((response) => {
-            if (response.data.success) {
+            if (response.data.success && data.isAuth !== false) {
               props.history.push("/");
             }
           });

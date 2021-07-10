@@ -12,9 +12,6 @@ const favoriteSchema = mongoose.Schema({
   mealTitle: {
     type: String,
   },
-  movie: {
-    type: String,
-  },
   mealImage: {
     type: String,
   },
