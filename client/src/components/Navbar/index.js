@@ -34,9 +34,7 @@ function NavBar() {
           className="menu__mobile-button"
           type="primary"
           onClick={showDrawer}
-        >
-          {/* <Icon type="align-right" theme="filled" /> */}
-        </Button>
+        ></Button>
         <Drawer
           title="Basic Drawer"
           placement="right"

@@ -3,13 +3,12 @@ import useInput from "../../components/hook";
 import { SearchOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import Quote from "../../components/Quotes/quotes";
-// import useSWR from "swr";
-// import fetcher from "../../components/fetcher";
 import SearchResults from "../../components/SearchResults";
 import axios from "axios";
 import { Row } from "antd";
 import SearchCategory from "../../components/SearchCategory";
 import FoodDetail from "../foodDetail";
+import { LandingContainer, BtnBox } from "./style";
 
 const LandingPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -22,6 +21,20 @@ const LandingPage = () => {
 
   const BASE_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${query}`;
   const BASE_ALL_URL = "https://www.themealdb.com/api/json/v1/1/categories.php";
+
+  const formStyle = {
+    display: "flex",
+    border: "2px solid #40AAFF",
+    borderRadius: "4px",
+    width: "480px",
+  };
+
+  const btnStyle = {
+    width: "100%",
+    height: "100%",
+    color: "white",
+    fontSize: "16px",
+  };
 
   const getData = async () => {
     const result = await axios.get(BASE_URL);
@@ -58,16 +71,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        width: "80%",
-        height: "100vh",
-        margin: "auto",
-        display: "flex",
-        justifyContent: "center",
-        paddingTop: "20px",
-      }}
-    >
+    <LandingContainer>
       <div style={{ textAlign: "center", paddingTop: "70px" }}>
         <h1
           style={{ marginBottom: "30px", fontWeight: "800", fontSize: "38px" }}
@@ -82,12 +86,7 @@ const LandingPage = () => {
             type="submit"
             onSubmit={onSubmit}
             autoComplete="off"
-            style={{
-              display: "flex",
-              border: "2px solid #40AAFF",
-              borderRadius: "4px",
-              width: "480px",
-            }}
+            style={formStyle}
           >
             <Input
               className="input"
@@ -97,24 +96,9 @@ const LandingPage = () => {
               placeholder="Enter an ingredient.  ex) egg "
               style={{ border: "none" }}
             />
-            <div
-              style={{
-                backgroundColor: "#40AAFF",
-                padding: "6px",
-                width: "9%",
-                margin: 0,
-                cursor: "pointer",
-              }}
-            >
-              <SearchOutlined
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  color: "white",
-                  fontSize: "16px",
-                }}
-              />
-            </div>
+            <BtnBox onClick={onSubmit}>
+              <SearchOutlined style={btnStyle} />
+            </BtnBox>
           </Form>
         </div>
         <div style={{ marginTop: "15px" }}>
@@ -148,7 +132,7 @@ const LandingPage = () => {
           foodDetail={foodDetail}
         />
       )}
-    </div>
+    </LandingContainer>
   );
 };
 

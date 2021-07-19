@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const saltRounds = 13;
+const saltRounds = 10;
 const PRIVATE_TOKEN = "nana";
 
 const userSchema = mongoose.Schema({
@@ -30,23 +30,26 @@ const userSchema = mongoose.Schema({
 
 userSchema.pre("save", function (next) {
   var user = this;
-  bcrypt.genSalt(saltRounds, function (err, salt) {
-    if (err) return next(err);
-    bcrypt.hash(user.password, salt, function (err, hash) {
+  if (user.isModified("password")) {
+    // 비밀번호 암호화
+    bcrypt.genSalt(saltRounds, function (err, salt) {
       if (err) return next(err);
-      user.password = hash;
-      next();
+      bcrypt.hash(user.password, salt, function (err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
+      });
     });
-  });
+  } else {
+    next();
+  }
 });
 
 userSchema.methods.comparePassword = function (plainPassword, cb) {
-  var user = this;
-  bcrypt.compare(plainPassword, this.password, (err, isMatched) => {
-    if (err) {
-      cb(err);
-    }
-    cb(null, isMatched);
+  // compare plain password with encrypted password
+  bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
   });
 };
 

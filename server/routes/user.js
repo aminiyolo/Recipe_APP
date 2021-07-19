@@ -4,6 +4,11 @@ const { User } = require("../model/user");
 const { auth } = require("../middleware/auth");
 
 router.post("/register", (req, res) => {
+  User.findOne({ email: req.body.email }, (err, data) => {
+    if (data) {
+      return res.json({ success: false, msg: " Already Exist User" });
+    }
+  });
   const user = new User(req.body);
   user.save((err, doc) => {
     if (err) {
@@ -17,11 +22,14 @@ router.post("/login", (req, res) => {
   // Look for a requested ID in a database
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
-      return res.json({ success: false, msg: "Doesn't Exist" });
+      return res.json({ success: false, msg: "Doesn't Exist USER" });
     }
     // If there is a data that we look for, Check the password if corrected
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (err) {
+        return res.json({ success: false, msg: err });
+      }
+      if (isMatch === false) {
         return res.json({ success: false, msg: "password is incorrect" });
       }
       // If the password is correct, Give a token

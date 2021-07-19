@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Menu } from "antd";
 import axios from "axios";
@@ -13,8 +12,7 @@ function RightMenu({ mode, history }) {
 
   const logoutHandler = () => {
     axios.get("/api/users/logout").then((response) => {
-      if (response.status === 200) {
-        revalidate();
+      if (response.data.success) {
         document.cookie = "USER=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
         history.push("/login");
       } else {

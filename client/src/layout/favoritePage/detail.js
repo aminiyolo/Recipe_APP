@@ -1,6 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router";
+import {
+  Favorite,
+  FoodDetail,
+  FoodTitle,
+  FoodImg,
+  Ul,
+  Instruction,
+  InstructionP,
+} from "./style";
 
 const Detail = () => {
   const { id } = useParams();
@@ -38,76 +47,27 @@ const Detail = () => {
   }, []);
 
   return (
-    <div style={{ margin: "80px auto", width: "80%" }}>
+    <Favorite>
       {foodDetail !== [] && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <FoodDetail>
           <div>
-            <h1 style={{ color: "black", fontWeight: "800" }}>
-              {foodDetail.strMeal}
-            </h1>
-            <img
-              style={{
-                width: "650px",
-                height: "450px",
-                borderRadius: "10px",
-                marginBottom: "10px",
-              }}
-              src={foodDetail.strMealThumb}
-              alt={foodDetail.strMeal}
-            />
-            <ul
-              style={{
-                listStyle: "none",
-                padding: "0",
-              }}
-            >
-              <span
-                style={{
-                  color: "black",
-                  fontSize: "20px",
-                  fontWeight: "650",
-                }}
-              >
-                Ingredients:
-              </span>
+            <FoodTitle>{foodDetail.strMeal}</FoodTitle>
+            <FoodImg src={foodDetail.strMealThumb} alt={foodDetail.strMeal} />
+            <Ul>
+              <span>Ingredients:</span>
               <div>
                 {ingredients &&
                   ingredients.map((ingredient, index) => (
-                    <li style={{ fontSize: "14px" }} key={index}>
-                      {ingredient}
-                    </li>
+                    <li key={index}>{ingredient}</li>
                   ))}
               </div>
-            </ul>
-            <p
-              style={{
-                color: "black",
-                marginBottom: "3px",
-                fontWeight: "700",
-                fontSize: "20px",
-              }}
-            >
-              Instructions:
-            </p>
-            {instruction && (
-              <p
-                style={{
-                  color: "black",
-                  fontSize: "16px",
-                }}
-              >
-                {instruction}
-              </p>
-            )}
+            </Ul>
+            <Instruction>Instructions:</Instruction>
+            {instruction && <InstructionP>{instruction}</InstructionP>}
           </div>
-        </div>
+        </FoodDetail>
       )}
-    </div>
+    </Favorite>
   );
 };
 

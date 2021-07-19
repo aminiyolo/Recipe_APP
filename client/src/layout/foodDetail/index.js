@@ -1,6 +1,14 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { CreateModal, CloseModalButton } from "./style";
+import {
+  CreateModal,
+  CloseModalButton,
+  ButtonContainer,
+  Img,
+  IngredientsTitle,
+  IngredientsP,
+  Detail,
+} from "./style";
 import useSWR from "swr";
 import fetcher from "../../components/fetcher";
 import { withRouter } from "react-router";
@@ -120,13 +128,7 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
                   <h1 style={{ color: "black", fontWeight: "800" }}>
                     {foodDetail.strMeal}
                   </h1>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "20px",
-                    }}
-                  >
+                  <ButtonContainer>
                     <button
                       onClick={onFavorite}
                       style={favorite ? addedStyle : btnStyle}
@@ -136,32 +138,15 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
                     <button style={btnStyle} onClick={onClickVideo}>
                       See the Video
                     </button>
-                  </div>
-                  <img
-                    style={{
-                      width: "200px",
-                      height: "175px",
-                      borderRadius: "10px",
-                      marginBottom: "10px",
-                    }}
-                    src={foodDetail.strMealThumb}
-                    alt={foodDetail.strMeal}
-                  />
+                  </ButtonContainer>
+                  <Img src={foodDetail.strMealThumb} alt={foodDetail.strMeal} />
                   <ul
                     style={{
                       listStyle: "none",
                       padding: "0",
                     }}
                   >
-                    <span
-                      style={{
-                        color: "black",
-                        fontSize: "20px",
-                        fontWeight: "650",
-                      }}
-                    >
-                      Ingredients:
-                    </span>
+                    <IngredientsTitle>Ingredients:</IngredientsTitle>
                     <div>
                       {ingredients &&
                         ingredients.map((ingredient, index) => (
@@ -171,26 +156,8 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
                         ))}
                     </div>
                   </ul>
-                  <p
-                    style={{
-                      color: "black",
-                      marginBottom: "3px",
-                      fontWeight: "700",
-                      fontSize: "20px",
-                    }}
-                  >
-                    Instructions:
-                  </p>
-                  {detail && (
-                    <p
-                      style={{
-                        color: "black",
-                        fontSize: "16px",
-                      }}
-                    >
-                      {detail}
-                    </p>
-                  )}
+                  <IngredientsP>Instructions:</IngredientsP>
+                  {detail && <Detail>{detail}</Detail>}
                 </div>
               </div>
             )}

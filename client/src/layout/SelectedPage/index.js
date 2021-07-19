@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { Row } from "antd";
 import SearchResults from "../../components/SearchResults";
 import FoodDetail from "../foodDetail";
+import { SelectedContainer } from "./style";
 
 const SelectedPage = () => {
   const { category } = useParams();
@@ -36,17 +37,7 @@ const SelectedPage = () => {
         style={{ textAlign: "center", color: "#40AAFF" }}
       >{`${category} Category Page`}</h1>
       <hr />
-      <div
-        style={{
-          width: "80%",
-          height: "100vh",
-          margin: "auto",
-          display: "flex",
-          justifyContent: "center",
-          paddingTop: "20px",
-          textAlign: "center",
-        }}
-      >
+      <SelectedContainer>
         <Row gutter={[24, 32]}>
           {recipes !== [] &&
             Array.isArray(recipes) &&
@@ -56,7 +47,7 @@ const SelectedPage = () => {
               </React.Fragment>
             ))}
         </Row>
-      </div>
+      </SelectedContainer>
       {showModal && (
         <FoodDetail
           show={showModal}

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import dayjs from "dayjs";
 import { withRouter } from "react-router-dom";
+import { RegisterContainer } from "./style";
 
 import { Form, Input, Button } from "antd";
 
@@ -32,15 +33,7 @@ const tailFormItemLayout = {
 
 function RegisterPage(props) {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100vh",
-      }}
-    >
+    <RegisterContainer>
       <Formik
         initialValues={{
           email: "",
@@ -71,6 +64,10 @@ function RegisterPage(props) {
             ).unix()}?d=identicon`,
           };
           axios.post("/api/users/register", data).then((response) => {
+            if (response.data.success === false) {
+              alert(response.data.msg);
+              window.location.reload();
+            }
             if (response.data.success) {
               props.history.push("/login");
             }
@@ -201,7 +198,7 @@ function RegisterPage(props) {
           );
         }}
       </Formik>
-    </div>
+    </RegisterContainer>
   );
 }
 

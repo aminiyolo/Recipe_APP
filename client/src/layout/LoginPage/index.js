@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Icon, Input, Button, Typography } from "antd";
@@ -6,38 +6,20 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../../components/fetcher";
+import { Loading, LoginContainer, Message } from "./style";
 
 const { Title } = Typography;
 
 const LoginPage = (props) => {
   const [formErrorMessage, setFormErrorMessage] = useState("");
-  const { data } = useSWR("/api/users/user", fetcher);
+  const { data: DATA } = useSWR("/api/users/user", fetcher);
 
-  if (data === undefined) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontWeight: "800",
-        }}
-      >
-        Loading...
-      </div>
-    );
+  if (DATA === undefined) {
+    return <Loading>Loading...</Loading>;
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100vh",
-      }}
-    >
+    <LoginContainer>
       <Formik
         initialValues={{
           email: "",
@@ -57,8 +39,11 @@ const LoginPage = (props) => {
             password: values.password,
           };
           axios.post("/api/users/login", data).then((response) => {
-            if (response.data.success && data.isAuth !== false) {
+            if (response.data.success) {
               props.history.push("/");
+            } else {
+              alert(response.data.msg);
+              window.location.reload();
             }
           });
         }}
@@ -123,17 +108,7 @@ const LoginPage = (props) => {
 
                 {formErrorMessage && (
                   <label>
-                    <p
-                      style={{
-                        color: "#ff0000bf",
-                        fontSize: "0.7rem",
-                        border: "1px solid",
-                        padding: "1rem",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      {formErrorMessage}
-                    </p>
+                    <Message>{formErrorMessage}</Message>
                   </label>
                 )}
 
@@ -157,7 +132,7 @@ const LoginPage = (props) => {
           );
         }}
       </Formik>
-    </div>
+    </LoginContainer>
   );
 };
 export default withRouter(LoginPage);
