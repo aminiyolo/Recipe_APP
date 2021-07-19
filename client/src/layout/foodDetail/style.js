@@ -18,19 +18,18 @@ export const CreateModal = styled.div`
       background-color: #00bffd;
       border-radius: 6px;
     }
-    margin-top: 20px;
+    margin-top: 35px;
     margin-left: 12px;
     display: inline-block;
-    width: 650px;
-    height: 580px;
+    width: 635px;
+    height: 550px;
     --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
     box-shadow: 0 0 0 1px var(--saf-0), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
-    /* background-color: #00bffe; */
     background-color: whitesmoke;
     border-radius: 6px;
     user-select: none;
-    max-width: 900px;
-    max-height: 1000px;
+    max-width: 800px;
+    max-height: 800px;
     padding: 20px 10px 40px;
     z-index: 1012;
     position: relative;
@@ -45,4 +44,35 @@ export const CloseModalButton = styled.button`
   border: none;
   font-size: 30px;
   cursor: pointer;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+export const Img = styled.img`
+  width: 200px;
+  height: 175px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+`;
+
+export const IngredientsTitle = styled.span`
+  color: black;
+  font-size: 20px;
+  font-weight: 650;
+`;
+
+export const IngredientsP = styled.p`
+  color: black;
+  margin-bottom: 3px;
+  font-weight: 700;
+  font-size: 20px;
+`;
+
+export const Detail = styled.p`
+  color: black;
+  font-size: 16px;
 `;
