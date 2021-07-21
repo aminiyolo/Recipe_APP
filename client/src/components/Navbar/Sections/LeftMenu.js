@@ -10,6 +10,9 @@ function LeftMenu({ mode }) {
       <Menu.Item key="favorite">
         <a href="/favorite">Favorite</a>
       </Menu.Item>
+      <Menu.Item key="chat">
+        <a href="/chat">Chat</a>
+      </Menu.Item>
     </Menu>
   );
 }

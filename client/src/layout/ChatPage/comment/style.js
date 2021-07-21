@@ -1,0 +1,26 @@
+import styled from "styled-components";
+
+export const Comment = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+`;
+
+export const Img = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+`;
+
+export const Detail = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  & > span {
+    margin-bottom: 5px;
+  }
+  & > div {
+    & > span {
+      margin-left: 20px;
+    }
+  }
+`;

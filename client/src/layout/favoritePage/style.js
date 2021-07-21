@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+export const Detail = styled.div`
+  width: 85%;
+  margin: 80px auto;
+`;
+
 export const Favorite = styled.div`
   margin: 80px auto;
   width: 80%;
@@ -42,4 +47,11 @@ export const Instruction = styled.p`
 export const InstructionP = styled.p`
   color: black;
   font-size: 16px;
+`;
+
+export const Button = styled.button`
+  border-radius: 5px;
+  border: none;
+  color: white;
+  background-color: #40a9ff;
 `;

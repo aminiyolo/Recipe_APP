@@ -7,9 +7,14 @@ import RegisterPage from "./layout/RegisterPage";
 import SelectedPage from "./layout/SelectedPage";
 import FavoritePage from "./layout/favoritePage";
 import Detail from "./layout/favoritePage/detail";
+import ChatPage from "./layout/ChatPage";
 import auth from "./hoc/auth";
+import fetcher from "./components/fetcher";
+import useSWR from "swr";
 
 function App() {
+  const { data } = useSWR("api/users/user", fetcher);
+
   return (
     <BrowserRouter>
       <div style={{ backgroundColor: "#FDFDFD" }}>
@@ -29,6 +34,7 @@ function App() {
               component={auth(FavoritePage, true)}
             />
             <Route path="/favorite/:id" component={auth(Detail, null)} />
+            <Route path="/chat" render={() => <ChatPage Data={data} />} />
           </Switch>
         </div>
       </div>

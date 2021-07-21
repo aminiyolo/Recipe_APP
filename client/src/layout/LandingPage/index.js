@@ -72,16 +72,12 @@ const LandingPage = () => {
 
   return (
     <LandingContainer>
-      <div style={{ textAlign: "center", paddingTop: "70px" }}>
-        <h1
-          style={{ marginBottom: "30px", fontWeight: "800", fontSize: "38px" }}
-        >
-          Find Meals For Your Ingredients
-        </h1>
-        <div style={{ marginBottom: "30px", fontWeight: "500" }}>
+      <div className="Landing">
+        <h1>Find Meals For Your Ingredients</h1>
+        <div className="quote">
           <Quote />
         </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div className="formBox">
           <Form
             type="submit"
             onSubmit={onSubmit}
@@ -94,15 +90,14 @@ const LandingPage = () => {
               value={query}
               onChange={changeHandler}
               placeholder="Enter an ingredient.  ex) egg "
-              style={{ border: "none" }}
             />
             <BtnBox onClick={onSubmit}>
               <SearchOutlined style={btnStyle} />
             </BtnBox>
           </Form>
         </div>
-        <div style={{ marginTop: "15px" }}>
-          <h2 style={{ fontWeight: "800", marginBottom: "35px" }}>
+        <div className="results">
+          <h2>
             Your Search Results: &nbsp;{searchValue ? `'${searchValue}'` : ""}
           </h2>
         </div>

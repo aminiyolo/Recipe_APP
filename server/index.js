@@ -20,6 +20,7 @@ mongoose
 
 app.use("/api/users", require("../server/routes/user"));
 app.use("/api/favorite", require("../server/routes/favorite"));
+app.use("/api/chat", require("../server/routes/chat"));
 
 const port = process.env.PORT || 3330;
 

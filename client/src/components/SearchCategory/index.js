@@ -4,16 +4,12 @@ import { Link } from "react-router-dom";
 import { CategoryBox, Image, ImageP } from "./style";
 
 const SearchCategory = ({ category }) => {
+  const style = {
+    cursor: "pointer",
+    borderRadius: "16px",
+  };
   return (
-    <Col
-      lg={8}
-      md={12}
-      xs={24}
-      style={{
-        cursor: "pointer",
-        borderRadius: "16px",
-      }}
-    >
+    <Col lg={8} md={12} xs={24} style={style}>
       <Link to={`/category/${category.strCategory}`}>
         <CategoryBox>
           <Image

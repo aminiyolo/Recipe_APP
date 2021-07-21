@@ -8,6 +8,7 @@ import {
   IngredientsTitle,
   IngredientsP,
   Detail,
+  Ul,
 } from "./style";
 import useSWR from "swr";
 import fetcher from "../../components/fetcher";
@@ -76,14 +77,12 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
   const onClickVideo = useCallback(() => {
     window.open(`${video}`);
   }, [video]);
-
   let dataToSubmit = {
     mealId: foodDetail.idMeal,
     mealTitle: foodDetail.strMeal,
     userFrom: data._id,
     mealImage: foodDetail.strMealThumb,
   };
-
   const onFavorite = useCallback(() => {
     if (data.isAuth === false) {
       let value = window.confirm("You need to login. Would you like to login?");
@@ -119,46 +118,37 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
       <CreateModal onClick={onCloseModal}>
         <div onClick={stopPropagation}>
           <CloseModalButton onClick={onCloseModal}>
-            <span style={{ color: "#00BFFD" }}>&times;</span>
+            <span>&times;</span>
           </CloseModalButton>
-          <div style={{ margin: "auto", width: "80%" }}>
+          <div className="detailBox">
             {foodDetail !== [] && (
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div>
-                  <h1 style={{ color: "black", fontWeight: "800" }}>
-                    {foodDetail.strMeal}
-                  </h1>
-                  <ButtonContainer>
-                    <button
-                      onClick={onFavorite}
-                      style={favorite ? addedStyle : btnStyle}
-                    >
-                      {favorite ? "Already Added" : "Add to Favorite"}
-                    </button>
-                    <button style={btnStyle} onClick={onClickVideo}>
-                      See the Video
-                    </button>
-                  </ButtonContainer>
-                  <Img src={foodDetail.strMealThumb} alt={foodDetail.strMeal} />
-                  <ul
-                    style={{
-                      listStyle: "none",
-                      padding: "0",
-                    }}
+              <div>
+                <h1 className="foodName">{foodDetail.strMeal}</h1>
+                <ButtonContainer>
+                  <button
+                    onClick={onFavorite}
+                    style={favorite ? addedStyle : btnStyle}
                   >
-                    <IngredientsTitle>Ingredients:</IngredientsTitle>
-                    <div>
-                      {ingredients &&
-                        ingredients.map((ingredient, index) => (
-                          <li style={{ fontSize: "14px" }} key={index}>
-                            {ingredient}
-                          </li>
-                        ))}
-                    </div>
-                  </ul>
-                  <IngredientsP>Instructions:</IngredientsP>
-                  {detail && <Detail>{detail}</Detail>}
-                </div>
+                    {favorite ? "Already Added" : "Add to Favorite"}
+                  </button>
+                  <button style={btnStyle} onClick={onClickVideo}>
+                    See the Video
+                  </button>
+                </ButtonContainer>
+                <Img src={foodDetail.strMealThumb} alt={foodDetail.strMeal} />
+                <Ul>
+                  <IngredientsTitle>Ingredients:</IngredientsTitle>
+                  <div>
+                    {ingredients &&
+                      ingredients.map((ingredient, index) => (
+                        <li style={{ fontSize: "14px" }} key={index}>
+                          {ingredient}
+                        </li>
+                      ))}
+                  </div>
+                </Ul>
+                <IngredientsP>Instructions:</IngredientsP>
+                {detail && <Detail>{detail}</Detail>}
               </div>
             )}
           </div>

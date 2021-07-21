@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { Row } from "antd";
 import SearchResults from "../../components/SearchResults";
 import FoodDetail from "../foodDetail";
-import { SelectedContainer } from "./style";
+import { SelectedContainer, Selected } from "./style";
 
 const SelectedPage = () => {
   const { category } = useParams();
@@ -32,10 +32,8 @@ const SelectedPage = () => {
   }, []);
 
   return (
-    <div style={{ marginTop: "70px" }}>
-      <h1
-        style={{ textAlign: "center", color: "#40AAFF" }}
-      >{`${category} Category Page`}</h1>
+    <Selected>
+      <h1>{`${category} Category Page`}</h1>
       <hr />
       <SelectedContainer>
         <Row gutter={[24, 32]}>
@@ -55,7 +53,7 @@ const SelectedPage = () => {
           foodDetail={foodDetail}
         />
       )}
-    </div>
+    </Selected>
   );
 };
 

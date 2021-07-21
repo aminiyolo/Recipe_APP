@@ -8,6 +8,15 @@ export const CreateModal = styled.div`
   top: 0;
   right: 0;
   z-index: 1022;
+  & > div > .detailBox {
+    margin: auto;
+    width: 80%;
+    & > div > .foodName {
+      color: black;
+      font-weight: 800;
+    }
+  }
+
   & > div {
     overflow-y: auto;
     &::-webkit-scrollbar {
@@ -44,6 +53,9 @@ export const CloseModalButton = styled.button`
   border: none;
   font-size: 30px;
   cursor: pointer;
+  & > span {
+    color: #00bffd;
+  }
 `;
 
 export const ButtonContainer = styled.div`
@@ -75,4 +87,9 @@ export const IngredientsP = styled.p`
 export const Detail = styled.p`
   color: black;
   font-size: 16px;
+`;
+
+export const Ul = styled.ul`
+  list-style: none;
+  padding: 0;
 `;

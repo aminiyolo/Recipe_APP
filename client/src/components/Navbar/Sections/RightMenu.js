@@ -6,13 +6,12 @@ import fetcher from "../../fetcher";
 import { withRouter } from "react-router";
 
 function RightMenu({ mode, history }) {
-  const { data, err, revalidate } = useSWR("/api/users/user", fetcher, {
-    dedupingInterval: 1000,
-  });
+  const { data, err, revalidate } = useSWR("/api/users/user", fetcher);
 
   const logoutHandler = () => {
     axios.get("/api/users/logout").then((response) => {
       if (response.data.success) {
+        revalidate();
         document.cookie = "USER=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
         history.push("/login");
       } else {
@@ -21,11 +20,15 @@ function RightMenu({ mode, history }) {
     });
   };
 
+  if (data === undefined) {
+    <div>Loading...</div>;
+  }
+
   setTimeout(() => {
     revalidate();
   }, 500);
 
-  if (data && data.token) {
+  if (document.cookie) {
     return (
       <Menu mode={mode}>
         <Menu.Item key="logout">

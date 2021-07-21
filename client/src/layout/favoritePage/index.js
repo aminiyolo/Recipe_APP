@@ -5,6 +5,7 @@ import axios from "axios";
 import useSWR from "swr";
 import { Popover } from "antd";
 import { Link } from "react-router-dom";
+import { Detail, Button } from "./style";
 
 const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState([]);
@@ -71,7 +72,7 @@ const FavoritePage = () => {
               </Link>
             </th>
             <th>
-              <button onClick={onRemove}>Remove</button>
+              <Button onClick={onRemove}>Remove</Button>
             </th>
           </tr>
         </React.Fragment>
@@ -91,7 +92,7 @@ const FavoritePage = () => {
   }, [data]);
 
   return (
-    <div style={{ width: "85%", margin: "80px auto" }}>
+    <Detail>
       <h2>Favorite Recipes List</h2>
       <hr />
       <table>
@@ -104,7 +105,7 @@ const FavoritePage = () => {
         </thead>
         <tbody>{RenderList}</tbody>
       </table>
-    </div>
+    </Detail>
   );
 };
 
