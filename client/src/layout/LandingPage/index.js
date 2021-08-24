@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useInput from "../../components/hook";
 import { SearchOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
@@ -8,7 +8,7 @@ import axios from "axios";
 import { Row } from "antd";
 import SearchCategory from "../../components/SearchCategory";
 import FoodDetail from "../foodDetail";
-import { LandingContainer, BtnBox } from "./style";
+import { LandingContainer, BtnBox, formStyle, btnStyle  } from "./style";
 
 const LandingPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -22,49 +22,46 @@ const LandingPage = () => {
   const BASE_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${query}`;
   const BASE_ALL_URL = "https://www.themealdb.com/api/json/v1/1/categories.php";
 
-  const formStyle = {
-    display: "flex",
-    border: "2px solid #40AAFF",
-    borderRadius: "4px",
-    width: "480px",
-  };
-
-  const btnStyle = {
-    width: "100%",
-    height: "100%",
-    color: "white",
-    fontSize: "16px",
-  };
-
   const getData = async () => {
-    const result = await axios.get(BASE_URL);
-    setRecipes(result.data.meals);
+    try {
+      const res = await axios.get(BASE_URL);
+      setRecipes(res.data.meals);
+    } catch (err) {
+      alert("정보를 가져오지 못했습니다.");
+    }
   };
 
   const getAllData = async () => {
-    const result = await axios.get(BASE_ALL_URL);
-    setCategories(result.data.categories);
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (!query.trim()) {
-      return;
+    try {
+      const res = await axios.get(BASE_ALL_URL);
+      setCategories(res.data.categories);
+    } catch (err) {
+      alert("정보를 가져오지 못했습니다.");
     }
-    getData();
-    setSearchValue(query);
-    setToggle(true);
-    setQuery("");
   };
 
-  const onOpenModal = (recipe) => {
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!query.trim()) {
+        return;
+      }
+      getData();
+      setSearchValue(query);
+      setToggle(true);
+      setQuery("");
+    },
+    [query, setQuery]
+  );
+
+  const onOpenModal = useCallback((recipe) => {
     setShowModal(true);
     setFoodDetail(recipe);
-  };
+  }, []);
 
-  const onCloseModal = () => {
+  const onCloseModal = useCallback(() => {
     setShowModal(false);
-  };
+  }, []);
 
   useEffect(() => {
     getAllData();

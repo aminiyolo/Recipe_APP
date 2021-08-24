@@ -27,14 +27,14 @@ const Quote = () => {
     ],
   ];
   return (
-    <React.Fragment>
+    <>
       <p style={{ fontWeight: "650", color: "black" }}>
         {quotes[`${number}`][0]}
       </p>
       <p style={{ fontWeight: "650", color: "black" }}>
         - {quotes[`${number}`][1]}
       </p>
-    </React.Fragment>
+    </>
   );
 };
 

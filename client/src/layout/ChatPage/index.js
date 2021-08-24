@@ -21,32 +21,30 @@ const ChatPage = ({ Data }) => {
       return alert("You need to login");
     }
 
-    if (!value.trim()) {
-      return;
-    } else {
-      let data = {
-        writer: Data._id,
-        content: value,
-      };
+    if (!value.trim()) return;
 
-      axios.post("/api/chat/saveChat", data).then((response) => {
-        if (response.data.success) {
-          let chat = [
-            {
-              _id: response.data.info._id,
-              writer: {
-                image: DATA.image,
-                name: DATA.name,
-              },
-              content: response.data.info.content,
-              createAt: response.data.info.createdAt,
+    let data = {
+      writer: Data._id,
+      content: value,
+    };
+
+    axios.post("/api/chat/saveChat", data).then((response) => {
+      if (response.data.success) {
+        let chat = [
+          {
+            _id: response.data.info._id,
+            writer: {
+              image: DATA.image,
+              name: DATA.name,
             },
-          ];
-          setComments([...comments, ...chat]);
-          setValue("");
-        }
-      });
-    }
+            content: response.data.info.content,
+            createAt: response.data.info.createdAt,
+          },
+        ];
+        setComments([...comments, ...chat]);
+        setValue("");
+      }
+    });
   };
 
   return (

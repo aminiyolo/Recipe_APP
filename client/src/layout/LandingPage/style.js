@@ -48,3 +48,17 @@ export const BtnBox = styled.div`
   margin: 0;
   cursor: pointer;
 `;
+
+export const formStyle = {
+  display: "flex",
+  border: "2px solid #40AAFF",
+  borderRadius: "4px",
+  width: "90%",
+};
+
+export const btnStyle = {
+  width: "100%",
+  height: "100%",
+  color: "white",
+  fontSize: "1rem",
+};

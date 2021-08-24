@@ -1,17 +1,15 @@
 import React from "react";
 import { Menu } from "antd";
+import { Link } from "react-router-dom";
 
 function LeftMenu({ mode }) {
   return (
     <Menu mode={mode}>
-      <Menu.Item key="home">
-        <a href="/">Home</a>
-      </Menu.Item>
       <Menu.Item key="favorite">
-        <a href="/favorite">Favorite</a>
+        <Link to="/favorite">Favorite</Link>
       </Menu.Item>
       <Menu.Item key="chat">
-        <a href="/chat">Chat</a>
+        <Link to="/chat">Chat</Link>
       </Menu.Item>
     </Menu>
   );

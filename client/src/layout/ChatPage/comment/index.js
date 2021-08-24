@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import SingleComment from "../comment/singleComment";
+import { CommentContainer } from "./style";
 
 const Comment = ({ comments, setComments }) => {
   const getData = () => {
@@ -16,7 +17,7 @@ const Comment = ({ comments, setComments }) => {
   }, []);
 
   return (
-    <div style={{ marginBottom: "30px" }}>
+    <CommentContainer>
       {comments !== [] &&
         comments.map((comment) => {
           return (
@@ -25,7 +26,7 @@ const Comment = ({ comments, setComments }) => {
             </React.Fragment>
           );
         })}
-    </div>
+    </CommentContainer>
   );
 };
 

@@ -24,3 +24,7 @@ export const Detail = styled.div`
     }
   }
 `;
+
+export const CommentContainer = styled.div`
+  margin-bottom: "30px";
+`;

@@ -15,7 +15,7 @@ router.get("/getChat", (req, res) => {
     .populate("writer")
     .exec((err, info) => {
       if (err) return res.status(400).json({ success: false, err });
-      return res.json({ success: true, info, chatSize: info.length });
+      return res.json({ success: true, info });
     });
 });
 

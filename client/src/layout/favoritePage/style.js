@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Detail = styled.div`
   width: 85%;
-  margin: 80px auto;
+  margin: 5rem auto;
 `;
 
 export const Favorite = styled.div`
@@ -13,6 +13,9 @@ export const Favorite = styled.div`
 export const FoodDetail = styled.div`
   display: flex;
   flex-direction: column;
+  & > div {
+    text-align: center;
+  }
 `;
 
 export const FoodTitle = styled.h1`
@@ -21,10 +24,10 @@ export const FoodTitle = styled.h1`
 `;
 
 export const FoodImg = styled.img`
-  width: 650px;
-  height: 450px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  width: 80%;
+  height: 28rem;
+  border-radius: 3%;
+  margin-bottom: 0.6rem;
 `;
 
 export const Ul = styled.ul`
@@ -32,7 +35,7 @@ export const Ul = styled.ul`
   padding: 0;
   & > span {
     color: #40a9ff;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 650;
   }
 `;

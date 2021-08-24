@@ -30,8 +30,8 @@ export const CreateModal = styled.div`
     margin-top: 35px;
     margin-left: 12px;
     display: inline-block;
-    width: 635px;
-    height: 550px;
+    width: 80%;
+    height: 90%;
     --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
     box-shadow: 0 0 0 1px var(--saf-0), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
     background-color: whitesmoke;
@@ -93,3 +93,27 @@ export const Ul = styled.ul`
   list-style: none;
   padding: 0;
 `;
+
+export const normal = {
+  backgroundColor: "#00bffe",
+  padding: "2px 4px",
+  border: "none",
+  borderRadius: "3px",
+  outline: "none",
+  color: "whitesmoke",
+  fontWeight: "550",
+  cursor: "pointer",
+  marginTop: "10px",
+};
+
+export const added = {
+  backgroundColor: "#1890FF",
+  padding: "2px 4px",
+  border: "none",
+  borderRadius: "3px",
+  outline: "none",
+  color: "whitesmoke",
+  fontWeight: "550",
+  cursor: "pointer",
+  marginTop: "10px",
+};

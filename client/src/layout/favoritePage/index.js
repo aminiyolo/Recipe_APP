@@ -22,62 +22,58 @@ const FavoritePage = () => {
     userFrom,
   };
 
-  const RenderList =
-    favoriteList &&
-    favoriteList.map((favoriteMeal, index) => {
-      const content = (
-        <div>
-          {favoriteMeal.mealImage ? (
-            <img
-              style={{ width: "250px" }}
-              alt="Meal_Image"
-              src={favoriteMeal.mealImage}
-            />
-          ) : (
-            `${favoriteMeal.mealTitle}`
-          )}
-        </div>
-      );
+  const RenderList = favoriteList?.map((favoriteMeal, index) => {
+    const content = (
+      <div>
+        {favoriteMeal.mealImage ? (
+          <img
+            style={{ width: "250px" }}
+            alt="Meal_Image"
+            src={favoriteMeal.mealImage}
+          />
+        ) : (
+          `${favoriteMeal.mealTitle}`
+        )}
+      </div>
+    );
 
-      const onRemove = () => {
-        let removeData = {
-          userFrom,
-          mealId: favoriteMeal.mealId,
-        };
-
-        axios
-          .post("/api/favorite/removeFromFavorite", removeData)
-          .then((response) => {
-            if (response.data.success) {
-              axios
-                .post("/api/favorite/FavoritedMeal", removeData)
-                .then((response) => {
-                  if (response.data.success) {
-                    setFavoriteList(response.data.list);
-                  }
-                });
-            }
-          });
+    const onRemove = () => {
+      let removeData = {
+        userFrom,
+        mealId: favoriteMeal.mealId,
       };
 
-      return (
-        <React.Fragment key={index}>
-          <tr>
-            <Popover content={content} title={favoriteMeal.mealTitle}>
-              <th>{favoriteMeal.mealTitle}</th>
-            </Popover>
-            <th>
-              <Link to={`/favorite/${favoriteMeal.mealId}`}>
-                See the Detail
-              </Link>
-            </th>
-            <th>
-              <Button onClick={onRemove}>Remove</Button>
-            </th>
-          </tr>
-        </React.Fragment>
-      );
-    });
+      axios
+        .post("/api/favorite/removeFromFavorite", removeData)
+        .then((response) => {
+          if (response.data.success) {
+            axios
+              .post("/api/favorite/FavoritedMeal", removeData)
+              .then((response) => {
+                if (response.data.success) {
+                  setFavoriteList(response.data.list);
+                }
+              });
+          }
+        });
+    };
+
+    return (
+      <React.Fragment key={index}>
+        <tr>
+          <Popover content={content} title={favoriteMeal.mealTitle}>
+            <th>{favoriteMeal.mealTitle}</th>
+          </Popover>
+          <th>
+            <Link to={`/favorite/${favoriteMeal.mealId}`}>See the Detail</Link>
+          </th>
+          <th>
+            <Button onClick={onRemove}>Remove</Button>
+          </th>
+        </tr>
+      </React.Fragment>
+    );
+  });
 
   useEffect(() => {
     if (data) {

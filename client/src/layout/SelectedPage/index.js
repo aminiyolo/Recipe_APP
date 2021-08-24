@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { Row } from "antd";
@@ -7,25 +7,29 @@ import FoodDetail from "../foodDetail";
 import { SelectedContainer, Selected } from "./style";
 
 const SelectedPage = () => {
-  const { category } = useParams();
   const BASE_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+  const { category } = useParams();
   const [recipes, setRecipes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [foodDetail, setFoodDetail] = useState([]);
 
   const getData = async () => {
-    const result = await axios.get(BASE_URL);
-    setRecipes(result.data.meals);
+    try {
+      const result = await axios.get(BASE_URL);
+      setRecipes(result.data.meals);
+    } catch (err) {
+      alert("정보를 가져오지 못했습니다.");
+    }
   };
 
-  const onCloseModal = () => {
+  const onCloseModal = useCallback(() => {
     setShowModal(false);
-  };
+  }, []);
 
-  const onOpenModal = (recipe) => {
+  const onOpenModal = useCallback((recipe) => {
     setShowModal(true);
     setFoodDetail(recipe);
-  };
+  }, []);
 
   useEffect(() => {
     getData();

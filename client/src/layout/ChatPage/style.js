@@ -16,10 +16,12 @@ export const FormBox = styled.div`
   width: 100%;
   & > form {
     display: flex;
-    width: 60%;
+    width: 100%;
     & > button {
-      width: 15%;
+      padding: 0;
+      width: 20%;
       height: 52px;
+      font-size: 1rem;
     }
   }
 `;
