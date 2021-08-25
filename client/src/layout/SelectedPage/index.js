@@ -7,8 +7,8 @@ import FoodDetail from "../foodDetail";
 import { SelectedContainer, Selected } from "./style";
 
 const SelectedPage = () => {
-  const BASE_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
   const { category } = useParams();
+  const BASE_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
   const [recipes, setRecipes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [foodDetail, setFoodDetail] = useState([]);

@@ -32,7 +32,7 @@ function RightMenu({ mode, history }) {
   if (document.cookie) {
     return (
       <Menu mode={mode}>
-        <Menu.Item key="logout">
+        <Menu.Item className="logout" key="logout">
           <span onClick={logoutHandler}>Logout</span>
         </Menu.Item>
       </Menu>

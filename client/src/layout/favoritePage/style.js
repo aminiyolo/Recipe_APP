@@ -58,3 +58,12 @@ export const Button = styled.button`
   color: white;
   background-color: #40a9ff;
 `;
+
+export const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 30px;
+  font-weight: 800;
+`;

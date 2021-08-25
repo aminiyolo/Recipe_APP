@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import SingleComment from "../comment/singleComment";
-import { CommentContainer } from "./style";
+import SingleComment from "./singleComment";
+import { CommentContainer, Loading } from "./style";
 
 const Comment = ({ comments, setComments }) => {
   const getData = () => {
@@ -16,16 +16,19 @@ const Comment = ({ comments, setComments }) => {
     getData();
   }, []);
 
+  if (comments === null) {
+    return <Loading>Loading...</Loading>;
+  }
+
   return (
     <CommentContainer>
-      {comments !== [] &&
-        comments.map((comment) => {
-          return (
-            <React.Fragment>
-              <SingleComment comment={comment} />
-            </React.Fragment>
-          );
-        })}
+      {comments?.map((comment, index) => {
+        return (
+          <React.Fragment key={index}>
+            <SingleComment comment={comment} />
+          </React.Fragment>
+        );
+      })}
     </CommentContainer>
   );
 };

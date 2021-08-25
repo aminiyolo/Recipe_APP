@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Input } from "antd";
-import Comment from "./comment";
+import Comment from "../../components/comment";
 import useInput from "../../components/hook";
 import axios from "axios";
 import useSWR from "swr";
@@ -11,7 +11,7 @@ const { TextArea } = Input;
 
 const ChatPage = ({ Data }) => {
   const [value, valueHandler, setValue] = useInput("");
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(null);
   const { data: DATA } = useSWR("api/users/user", fetcher);
 
   const onSubmit = (e) => {
@@ -50,7 +50,7 @@ const ChatPage = ({ Data }) => {
   return (
     <ChatPageContainer>
       <br />
-      <h2>Have a small talk !</h2>
+      <h2>This is a Guest Book !</h2>
       <hr />
       <br />
       <Comment comments={comments} setComments={setComments} />

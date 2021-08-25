@@ -5,10 +5,10 @@ import axios from "axios";
 import useSWR from "swr";
 import { Popover } from "antd";
 import { Link } from "react-router-dom";
-import { Detail, Button } from "./style";
+import { Detail, Button, Loading } from "./style";
 
 const FavoritePage = () => {
-  const [favoriteList, setFavoriteList] = useState([]);
+  const [favoriteList, setFavoriteList] = useState(null);
   const { data } = useSWR("/api/users/user", fetcher);
 
   let userFrom;
@@ -86,6 +86,10 @@ const FavoritePage = () => {
         });
     }
   }, [data]);
+
+  if (favoriteList === null) {
+    return <Loading>Loading...</Loading>;
+  }
 
   return (
     <Detail>

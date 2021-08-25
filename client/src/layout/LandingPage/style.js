@@ -35,7 +35,17 @@ export const LandingContainer = styled.div`
     & > div {
       & > h2 {
         font-weight: 800;
-        margin-bottom: 35px;
+        margin-bottom: 15px;
+      }
+      & > button {
+        border: none;
+        outline: none;
+        margin-bottom: 2rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background: #40aaff;
+        color: #fff;
+        cursor: pointer;
       }
     }
   }
@@ -53,7 +63,7 @@ export const formStyle = {
   display: "flex",
   border: "2px solid #40AAFF",
   borderRadius: "4px",
-  width: "90%",
+  width: "80%",
 };
 
 export const btnStyle = {
@@ -62,3 +72,12 @@ export const btnStyle = {
   color: "white",
   fontSize: "1rem",
 };
+
+export const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 30px;
+  font-weight: 800;
+`;

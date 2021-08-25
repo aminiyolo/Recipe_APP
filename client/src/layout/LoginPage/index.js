@@ -43,7 +43,7 @@ const LoginPage = (props) => {
               props.history.push("/");
             } else {
               alert(response.data.msg);
-              window.location.reload();
+              // window.location.reload();
             }
           });
         }}
@@ -88,7 +88,10 @@ const LoginPage = (props) => {
                   <Input
                     id="password"
                     prefix={
-                      <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                      <Icon
+                        type="lock"
+                        style={{ color: "rgba(0,0,0, 0.25)" }}
+                      />
                     }
                     placeholder="Enter your password"
                     type="password"
@@ -119,7 +122,6 @@ const LoginPage = (props) => {
                       htmlType="submit"
                       className="login-form-button"
                       style={{ minWidth: "100%" }}
-                      disabled={isSubmitting}
                       onSubmit={handleSubmit}
                     >
                       Log in

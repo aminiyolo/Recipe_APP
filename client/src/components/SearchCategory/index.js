@@ -1,12 +1,15 @@
 import React from "react";
 import { Col } from "antd";
-import { Link } from "react-router-dom";
 import { CategoryBox, Image, ImageP, colStyle } from "./style";
 
-const SearchCategory = ({ category }) => {
+const SearchCategory = ({ category, onClickCategory }) => {
+  const onClick = (value) => {
+    onClickCategory(value);
+  };
+
   return (
     <Col lg={8} md={12} xs={24} style={colStyle}>
-      <Link to={`/category/${category.strCategory}`}>
+      <div onClick={() => onClick(category.strCategory)}>
         <CategoryBox>
           <Image
             src={category.strCategoryThumb}
@@ -14,7 +17,7 @@ const SearchCategory = ({ category }) => {
           />
           <ImageP>{category.strCategory}</ImageP>
         </CategoryBox>
-      </Link>
+      </div>
     </Col>
   );
 };

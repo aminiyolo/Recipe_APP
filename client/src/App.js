@@ -9,7 +9,6 @@ const LandingPage = loadble(() => import("../src/layout/LandingPage"));
 const LoginPage = loadble(() => import("./layout/LoginPage"));
 const NavBar = loadble(() => import("./components/Navbar"));
 const RegisterPage = loadble(() => import("./layout/RegisterPage"));
-const SelectedPage = loadble(() => import("./layout/SelectedPage"));
 const FavoritePage = loadble(() => import("./layout/favoritePage"));
 const Detail = loadble(() => import("./layout/favoritePage/detail"));
 const ChatPage = loadble(() => import("./layout/ChatPage"));
@@ -26,10 +25,6 @@ function App() {
             <Route exact path="/" component={auth(LandingPage, null)} />
             <Route path="/login" component={auth(LoginPage, false)} />
             <Route path="/register" component={auth(RegisterPage, false)} />
-            <Route
-              path="/category/:category"
-              component={auth(SelectedPage, null)}
-            />
             <Route
               exact
               path="/favorite"

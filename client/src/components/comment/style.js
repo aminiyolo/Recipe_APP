@@ -28,3 +28,12 @@ export const Detail = styled.div`
 export const CommentContainer = styled.div`
   margin-bottom: "30px";
 `;
+
+export const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44vh;
+  font-size: 30px;
+  font-weight: 800;
+`;

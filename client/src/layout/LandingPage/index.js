@@ -8,7 +8,13 @@ import axios from "axios";
 import { Row } from "antd";
 import SearchCategory from "../../components/SearchCategory";
 import FoodDetail from "../foodDetail";
-import { LandingContainer, BtnBox, formStyle, btnStyle  } from "./style";
+import {
+  LandingContainer,
+  BtnBox,
+  formStyle,
+  btnStyle,
+  Loading,
+} from "./style";
 
 const LandingPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -43,16 +49,31 @@ const LandingPage = () => {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (!query.trim()) {
-        return;
-      }
+      if (!query.trim()) return;
+
       getData();
       setSearchValue(query);
       setToggle(true);
       setQuery("");
     },
-    [query, setQuery]
+    [query]
   );
+
+  const onClickCategory = useCallback((category) => {
+    const getDataByCategory = async () => {
+      try {
+        const res = await axios.get(
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+        );
+        setRecipes(res.data.meals);
+        setSearchValue(category);
+      } catch (err) {
+        alert("정보를 가져오지 못했습니다.");
+      }
+    };
+
+    getDataByCategory();
+  }, []);
 
   const onOpenModal = useCallback((recipe) => {
     setShowModal(true);
@@ -62,6 +83,12 @@ const LandingPage = () => {
   const onCloseModal = useCallback(() => {
     setShowModal(false);
   }, []);
+
+  const onClickCategoryAll = useCallback(() => {
+    if (recipes) setRecipes([]);
+    setToggle(false);
+    getAllData();
+  }, [recipes]);
 
   useEffect(() => {
     getAllData();
@@ -97,7 +124,9 @@ const LandingPage = () => {
           <h2>
             Your Search Results: &nbsp;{searchValue ? `'${searchValue}'` : ""}
           </h2>
+          <button onClick={onClickCategoryAll}>See all categories</button>
         </div>
+
         <Row gutter={[32, 32]}>
           {recipes !== [] &&
             Array.isArray(recipes) &&
@@ -112,7 +141,10 @@ const LandingPage = () => {
             categories !== [] &&
             categories.map((category, index) => (
               <React.Fragment key={index}>
-                <SearchCategory category={category} />
+                <SearchCategory
+                  category={category}
+                  onClickCategory={onClickCategory}
+                />
               </React.Fragment>
             ))}
         </Row>
