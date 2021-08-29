@@ -27,6 +27,8 @@ export const Detail = styled.div`
 
 export const CommentContainer = styled.div`
   margin-bottom: "30px";
+  height: 58%;
+  overflow-y: scroll;
 `;
 
 export const Loading = styled.div`

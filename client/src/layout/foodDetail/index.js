@@ -28,19 +28,6 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
     e.stopPropagation();
   }, []);
 
-  let meal;
-  const getData = async () => {
-    try {
-      const res = await axios.get(URL);
-      setDatail(res.data.meals[0].strInstructions);
-      setVideo(res.data.meals[0].strYoutube);
-      meal = res.data.meals[0];
-      addIngredients(meal);
-    } catch (err) {
-      alert("정보를 가져오지 못했습니다.");
-    }
-  };
-
   const addIngredients = useCallback((meal) => {
     const ingredientsContainer = [];
     for (let i = 1; i < 21; i++) {
@@ -55,9 +42,54 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
     setIngredients(ingredientsContainer);
   }, []);
 
+  let meal;
+  const getData = async () => {
+    try {
+      const res = await axios.get(URL);
+      setDatail(res.data.meals[0].strInstructions);
+      setVideo(res.data.meals[0].strYoutube);
+      meal = res.data.meals[0];
+      addIngredients(meal);
+    } catch (err) {
+      alert("정보를 가져오지 못했습니다.");
+    }
+  };
+
   const onClickVideo = useCallback(() => {
     window.open(`${video}`);
   }, [video]);
+
+  const favoriteHandler = useCallback(() => {
+    if (data.isAuth === false) {
+      // 비로그인 유저일 시
+      let value = window.confirm("You need to login. Would you like to login?");
+      if (value) history.push("/login");
+      return;
+    }
+
+    if (!favorite) {
+      const addFavorite = async () => {
+        try {
+          await axios.post("/api/favorite/addToFavorite", dataToSubmit);
+          setFavorite(true);
+        } catch (err) {
+          alert("잠시 후에 다시 시도해주세요.");
+        }
+      };
+
+      addFavorite();
+    } else if (favorite) {
+      const remove = async () => {
+        try {
+          await axios.post("/api/favorite/removeFromFavorite", dataToSubmit);
+          setFavorite(false);
+        } catch (err) {
+          alert("잠시 후에 다시 시도해주세요.");
+        }
+      };
+      remove();
+    }
+  }, [favorite]);
 
   let dataToSubmit = {
     mealId: foodDetail.idMeal,
@@ -66,34 +98,18 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
     mealImage: foodDetail.strMealThumb,
   };
 
-  const favoriteHandler = useCallback(() => {
-    if (data.isAuth === false) {
-      let value = window.confirm("You need to login. Would you like to login?");
-      if (value) {
-        history.push("/login");
-      }
-      return;
-    }
-    if (!favorite) {
-      axios
-        .post("/api/favorite/addToFavorite", dataToSubmit)
-        .then((response) => {
-          if (response.data.success) setFavorite(true);
-        });
-    } else if (favorite) {
-      axios
-        .post("/api/favorite/removeFromFavorite", dataToSubmit)
-        .then((response) => {
-          if (response.data.success) setFavorite(false);
-        });
-    }
-  }, [favorite]);
-
   useEffect(() => {
     getData();
-    axios.post("/api/favorite/favorited", dataToSubmit).then((response) => {
-      if (response.data.success) setFavorite(response.data.favorited);
-    });
+    const checkIfFavorited = async () => {
+      try {
+        const res = await axios.post("/api/favorite/favorited", dataToSubmit);
+        setFavorite(res.data);
+      } catch (err) {
+        alert("잠시 후에 다시 시도해주세요.");
+      }
+    };
+
+    checkIfFavorited();
   }, []);
 
   if (detail) {

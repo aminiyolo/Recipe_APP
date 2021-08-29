@@ -22,15 +22,11 @@ function App() {
         <NavBar />
         <div style={{ paddingTop: "16px", background: "#FFF" }}>
           <Switch>
-            <Route exact path="/" component={auth(LandingPage, null)} />
-            <Route path="/login" component={auth(LoginPage, false)} />
-            <Route path="/register" component={auth(RegisterPage, false)} />
-            <Route
-              exact
-              path="/favorite"
-              component={auth(FavoritePage, true)}
-            />
-            <Route path="/favorite/:id" component={auth(Detail, null)} />
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route exact path="/favorite" component={FavoritePage} />
+            <Route path="/favorite/:id" component={Detail} />
             <Route path="/chat" render={() => <ChatPage Data={data} />} />
           </Switch>
         </div>

@@ -7,6 +7,7 @@ export const LandingContainer = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 20px;
+
   & > .Landing {
     text-align: center;
     padding-top: 70px;
@@ -63,7 +64,7 @@ export const formStyle = {
   display: "flex",
   border: "2px solid #40AAFF",
   borderRadius: "4px",
-  width: "80%",
+  width: "20rem",
 };
 
 export const btnStyle = {

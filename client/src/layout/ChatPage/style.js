@@ -28,5 +28,5 @@ export const FormBox = styled.div`
 
 export const Footer = styled.div`
   width: 100%;
-  height: 70px;
+  height: 90px;
 `;

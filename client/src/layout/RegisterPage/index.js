@@ -5,7 +5,9 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { withRouter } from "react-router-dom";
 import { RegisterContainer } from "./style";
-
+import useSWR from "swr";
+import fetcher from "../../components/fetcher";
+import { Loading } from "../LoginPage/style";
 import { Form, Input, Button } from "antd";
 
 const formItemLayout = {
@@ -31,7 +33,17 @@ const tailFormItemLayout = {
   },
 };
 
-function RegisterPage(props) {
+const RegisterPage = (props) => {
+  const { data: DATA } = useSWR("/api/users/user", fetcher);
+
+  if (DATA === undefined) {
+    return <Loading>Loading...</Loading>;
+  }
+
+  if (DATA?.token) {
+    props.history.push("/");
+  }
+
   return (
     <RegisterContainer>
       <Formik
@@ -63,15 +75,22 @@ function RegisterPage(props) {
               new Date()
             ).unix()}?d=identicon`,
           };
-          axios.post("/api/users/register", data).then((response) => {
-            if (response.data.success === false) {
-              alert(response.data.msg);
-              window.location.reload();
+
+          const register = async () => {
+            try {
+              const res = await axios.post("/api/users/register", data);
+              if (!res.data.success) {
+                alert(res.data.msg);
+              } else {
+                alert("Congratulations! Register was successful");
+                props.history.push("/login");
+              }
+            } catch (err) {
+              alert(err);
             }
-            if (response.data.success) {
-              props.history.push("/login");
-            }
-          });
+          };
+
+          register();
         }}
       >
         {(props) => {
@@ -79,7 +98,6 @@ function RegisterPage(props) {
             values,
             touched,
             errors,
-            isSubmitting,
             handleChange,
             handleBlur,
             handleSubmit,
@@ -185,11 +203,7 @@ function RegisterPage(props) {
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>
-                  <Button
-                    onClick={handleSubmit}
-                    type="primary"
-                    disabled={isSubmitting}
-                  >
+                  <Button onClick={handleSubmit} type="primary">
                     Submit
                   </Button>
                 </Form.Item>
@@ -200,6 +214,6 @@ function RegisterPage(props) {
       </Formik>
     </RegisterContainer>
   );
-}
+};
 
 export default withRouter(RegisterPage);

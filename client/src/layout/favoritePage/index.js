@@ -4,10 +4,10 @@ import fetcher from "../../components/fetcher";
 import axios from "axios";
 import useSWR from "swr";
 import { Popover } from "antd";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Detail, Button, Loading } from "./style";
 
-const FavoritePage = () => {
+const FavoritePage = ({ history }) => {
   const [favoriteList, setFavoriteList] = useState(null);
   const { data } = useSWR("/api/users/user", fetcher);
 
@@ -77,18 +77,31 @@ const FavoritePage = () => {
 
   useEffect(() => {
     if (data) {
-      axios
-        .post("/api/favorite/FavoritedMeal", dataToSubmit)
-        .then((response) => {
-          if (response.data.success) {
-            setFavoriteList(response.data.list);
-          }
-        });
+      const getData = async () => {
+        try {
+          const res = await axios.post(
+            "/api/favorite/FavoritedMeal",
+            dataToSubmit
+          );
+          setFavoriteList(res.data);
+        } catch (err) {
+          alert("잠시 후에 다시 시도해주세요.");
+        }
+      };
+
+      getData();
     }
-  }, [data]);
+  }, [data, dataToSubmit]);
 
   if (favoriteList === null) {
     return <Loading>Loading...</Loading>;
+  }
+
+  if (data.isAuth === false) {
+    let res = window.confirm("You need to login, Would you like to login?");
+    if (res) {
+      history.push("/login");
+    } else history.push("/");
   }
 
   return (
@@ -109,4 +122,4 @@ const FavoritePage = () => {
   );
 };
 
-export default FavoritePage;
+export default withRouter(FavoritePage);

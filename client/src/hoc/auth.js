@@ -7,8 +7,12 @@ export default function auth(SpecificComponent, option) {
     const { data } = useSWR("/api/users/user", fetcher);
     useEffect(() => {
       if (data?.isAuth === false) {
-        if (option === true) {
-          history.push("/login");
+        if (option) {
+          let res = window.confirm("You need to login");
+          if (res) {
+            history.push("/login");
+          }
+          history.push("/");
         }
       }
 

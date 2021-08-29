@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Icon, Input, Button, Typography } from "antd";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../../components/fetcher";
 import { Loading, LoginContainer, Message } from "./style";
@@ -16,6 +16,10 @@ const LoginPage = (props) => {
 
   if (DATA === undefined) {
     return <Loading>Loading...</Loading>;
+  }
+
+  if (DATA?.token) {
+    props.history.push("/");
   }
 
   return (
@@ -53,7 +57,6 @@ const LoginPage = (props) => {
             values,
             touched,
             errors,
-            isSubmitting,
             handleChange,
             handleBlur,
             handleSubmit,
@@ -127,7 +130,7 @@ const LoginPage = (props) => {
                       Log in
                     </Button>
                   </div>
-                  Or <a href="/register">register now!</a>
+                  Or <Link to="/register">register now!</Link>
                 </Form.Item>
               </form>
             </div>

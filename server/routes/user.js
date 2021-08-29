@@ -3,19 +3,21 @@ const router = express.Router();
 const { User } = require("../model/user");
 const { auth } = require("../middleware/auth");
 
-router.post("/register", (req, res) => {
-  User.findOne({ email: req.body.email }, (err, data) => {
-    if (data) {
-      return res.json({ success: false, msg: " Already Exist User" });
-    }
-  });
-  const user = new User(req.body);
-  user.save((err, doc) => {
-    if (err) {
-      return res.json({ success: false, err });
-    }
+router.post("/register", async (req, res) => {
+  try {
+    const data = await User.findOne({ email: req.body.email });
+    // 이미 가입한 이메일인 경우
+    if (data)
+      return res
+        .status(200)
+        .json({ success: false, msg: " Already Exist Email" });
+
+    const user = new User(req.body);
+    await user.save();
     return res.status(200).json({ success: true });
-  });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
 });
 
 router.post("/login", (req, res) => {
@@ -46,11 +48,13 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.get("/logout", auth, (req, res) => {
-  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({ success: true });
-  });
+router.get("/logout", auth, async (req, res) => {
+  try {
+    await User.findOneAndUpdate({ _id: req.user._id }, { token: "" });
+    return res.status(200).json();
+  } catch (err) {
+    return res.status(500).json(err);
+  }
 });
 
 router.get("/user", auth, (req, res) => {

@@ -10,16 +10,21 @@ function RightMenu({ mode, history }) {
   const { data, revalidate } = useSWR("/api/users/user", fetcher);
 
   const logoutHandler = useCallback(() => {
-    axios.get("/api/users/logout").then((response) => {
-      if (response.data.success) {
-        revalidate();
-        document.cookie = "USER=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"; // 쿠키 초기화
-        history.push("/login");
-      } else {
+    const logout = async () => {
+      try {
+        const res = await axios.get("/api/users/logout");
+        if (res.status === 200) {
+          revalidate();
+          document.cookie = "USER=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"; // 쿠키 초기화
+          history.push("/login");
+        }
+      } catch (err) {
         alert("Log Out Failed");
       }
-    });
-  }, [history]);
+    };
+
+    logout();
+  }, [history, revalidate]);
 
   if (data === undefined) {
     <div>Loading...</div>;

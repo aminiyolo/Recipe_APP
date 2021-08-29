@@ -28,23 +28,28 @@ const ChatPage = ({ Data }) => {
       content: value,
     };
 
-    axios.post("/api/chat/saveChat", data).then((response) => {
-      if (response.data.success) {
+    const getData = async () => {
+      try {
+        const res = await axios.post("/api/chat/saveChat", data);
         let chat = [
           {
-            _id: response.data.info._id,
+            _id: res.data._id,
             writer: {
               image: DATA.image,
               name: DATA.name,
             },
-            content: response.data.info.content,
-            createAt: response.data.info.createdAt,
+            content: res.data.content,
+            createAt: res.data.createdAt,
           },
         ];
         setComments([...comments, ...chat]);
         setValue("");
+      } catch (err) {
+        alert("잠시 후에 다시 시도해주세요.");
       }
-    });
+    };
+
+    getData();
   };
 
   return (

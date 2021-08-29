@@ -4,12 +4,13 @@ import SingleComment from "./singleComment";
 import { CommentContainer, Loading } from "./style";
 
 const Comment = ({ comments, setComments }) => {
-  const getData = () => {
-    axios.get("/api/chat/getChat").then((response) => {
-      if (response.data.success) {
-        setComments(response.data.info);
-      }
-    });
+  const getData = async () => {
+    try {
+      const res = await axios.get("/api/chat/getChat");
+      setComments(res.data);
+    } catch (err) {
+      alert("잠시 후에 다시 시도해주세요.");
+    }
   };
 
   useEffect(() => {

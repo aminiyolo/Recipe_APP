@@ -8,13 +8,7 @@ import axios from "axios";
 import { Row } from "antd";
 import SearchCategory from "../../components/SearchCategory";
 import FoodDetail from "../foodDetail";
-import {
-  LandingContainer,
-  BtnBox,
-  formStyle,
-  btnStyle,
-  Loading,
-} from "./style";
+import { LandingContainer, BtnBox, formStyle, btnStyle } from "./style";
 
 const LandingPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -30,7 +24,9 @@ const LandingPage = () => {
 
   const getData = async () => {
     try {
+      // 선택된 재료의 레시피 가져오기
       const res = await axios.get(BASE_URL);
+      if (res.data.meals) setRecipes(null);
       setRecipes(res.data.meals);
     } catch (err) {
       alert("정보를 가져오지 못했습니다.");
@@ -39,6 +35,7 @@ const LandingPage = () => {
 
   const getAllData = async () => {
     try {
+      // 모든 카테고리 목록 가져오기
       const res = await axios.get(BASE_ALL_URL);
       setCategories(res.data.categories);
     } catch (err) {
@@ -67,6 +64,7 @@ const LandingPage = () => {
         );
         setRecipes(res.data.meals);
         setSearchValue(category);
+        setToggle(true); // 카테고리 목록 가리기
       } catch (err) {
         alert("정보를 가져오지 못했습니다.");
       }
@@ -85,8 +83,10 @@ const LandingPage = () => {
   }, []);
 
   const onClickCategoryAll = useCallback(() => {
-    if (recipes) setRecipes([]);
-    setToggle(false);
+    // 버튼을 눌러 카테고리 목록 전부 가져오기
+    setRecipes([]);
+    setToggle(false); // 카테고리 목록 보이게 하기
+    setSearchValue("");
     getAllData();
   }, [recipes]);
 
@@ -113,7 +113,7 @@ const LandingPage = () => {
               type="text"
               value={query}
               onChange={changeHandler}
-              placeholder="Enter an ingredient.  ex) egg "
+              placeholder="Enter an ingredient.  ex) egg, pork, beef ... "
             />
             <BtnBox onClick={onSubmit}>
               <SearchOutlined style={btnStyle} />
@@ -125,8 +125,10 @@ const LandingPage = () => {
             Your Search Results: &nbsp;{searchValue ? `'${searchValue}'` : ""}
           </h2>
           <button onClick={onClickCategoryAll}>See all categories</button>
+          {recipes === null && <h2>None result</h2>}
         </div>
 
+        {/* 재료로 만들 수 있는 요리 목록 렌더링 */}
         <Row gutter={[32, 32]}>
           {recipes !== [] &&
             Array.isArray(recipes) &&
@@ -136,6 +138,8 @@ const LandingPage = () => {
               </React.Fragment>
             ))}
         </Row>
+
+        {/*  모든 카테고리 목록 렌더링 */}
         <Row gutter={[24, 32]}>
           {!toggle &&
             categories !== [] &&
@@ -149,6 +153,7 @@ const LandingPage = () => {
             ))}
         </Row>
       </div>
+      {/* 레시피 모달 창 렌더링 */}
       {showModal && (
         <FoodDetail
           show={showModal}
