@@ -47,7 +47,6 @@ const LoginPage = (props) => {
               props.history.push("/");
             } else {
               alert(response.data.msg);
-              // window.location.reload();
             }
           });
         }}
@@ -127,7 +126,7 @@ const LoginPage = (props) => {
                       style={{ minWidth: "100%" }}
                       onSubmit={handleSubmit}
                     >
-                      Log in
+                      Login
                     </Button>
                   </div>
                   Or <Link to="/register">register now!</Link>

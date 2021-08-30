@@ -57,6 +57,7 @@ const LandingPage = () => {
   );
 
   const onClickCategory = useCallback((category) => {
+    // 특정 카테고리 목록 선택 시
     const getDataByCategory = async () => {
       try {
         const res = await axios.get(

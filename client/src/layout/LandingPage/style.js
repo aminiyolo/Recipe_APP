@@ -7,7 +7,6 @@ export const LandingContainer = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 20px;
-
   & > .Landing {
     text-align: center;
     padding-top: 70px;

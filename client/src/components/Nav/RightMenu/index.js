@@ -1,12 +1,11 @@
 import React, { useCallback } from "react";
-import { Menu } from "antd";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../../fetcher";
-import { withRouter } from "react-router";
+import { RightMenuContainer, Wrapper, Logout } from "./style";
 
-function RightMenu({ mode, history }) {
+const RightMenu = ({ history }) => {
   const { data, revalidate } = useSWR("/api/users/user", fetcher);
 
   const logoutHandler = useCallback(() => {
@@ -34,26 +33,19 @@ function RightMenu({ mode, history }) {
     revalidate();
   }, 500);
 
-  if (document.cookie) {
-    return (
-      <Menu mode={mode}>
-        <Menu.Item className="logout" key="logout">
-          <span onClick={logoutHandler}>Logout</span>
-        </Menu.Item>
-      </Menu>
-    );
-  } else {
-    return (
-      <Menu mode={mode}>
-        <Menu.Item key="mail">
-          <Link to="/login">Signin</Link>
-        </Menu.Item>
-        <Menu.Item key="app">
-          <Link to="/register">Signup</Link>
-        </Menu.Item>
-      </Menu>
-    );
-  }
-}
+  return (
+    <RightMenuContainer>
+      {!data?.token ? (
+        <Wrapper>
+          <div className="login">
+            <Link to="/login">Login</Link>
+          </div>
+        </Wrapper>
+      ) : (
+        <Logout onClick={logoutHandler}>Logout</Logout>
+      )}
+    </RightMenuContainer>
+  );
+};
 
 export default withRouter(RightMenu);

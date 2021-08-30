@@ -17,6 +17,7 @@ const ChatPage = ({ Data }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (DATA.isAuth === false) {
+      // 로그인 유저가 아닐 시
       setValue("");
       return alert("You need to login");
     }
