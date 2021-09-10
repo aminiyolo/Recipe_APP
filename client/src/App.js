@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import fetcher from "./components/fetcher";
 import useSWR from "swr";

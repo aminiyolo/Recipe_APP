@@ -28,10 +28,12 @@ export const LeftMenu = styled.div`
       font-size: 1rem;
       color: black;
       padding-bottom: 7px;
+      transition: all 300ms ease-out;
 
       &:hover {
         color: #40aaff;
         border-bottom: 2px solid #40aaff;
+        letter-spacing: 0.2rem;
       }
     }
   }
@@ -44,10 +46,12 @@ export const LeftMenu = styled.div`
       font-size: 1rem;
       color: black;
       padding-bottom: 7px;
+      transition: all 300ms ease-out;
 
       &:hover {
         color: #40aaff;
         border-bottom: 2px solid #40aaff;
+        letter-spacing: 0.2rem;
       }
     }
   }

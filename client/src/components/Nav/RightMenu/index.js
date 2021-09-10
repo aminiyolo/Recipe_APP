@@ -1,11 +1,12 @@
-import React, { useCallback } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { useCallback } from "react";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import useSWR from "swr";
 import fetcher from "../../fetcher";
 import { RightMenuContainer, Wrapper, Logout } from "./style";
 
-const RightMenu = ({ history }) => {
+const RightMenu = () => {
+  const history = useHistory();
   const { data, revalidate } = useSWR("/api/users/user", fetcher);
 
   const logoutHandler = useCallback(() => {
@@ -48,4 +49,4 @@ const RightMenu = ({ history }) => {
   );
 };
 
-export default withRouter(RightMenu);
+export default RightMenu;

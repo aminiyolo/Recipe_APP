@@ -14,8 +14,11 @@ export const Wrapper = styled.div`
     & > a {
       font-size: 1rem;
       color: black;
+      transition: all 300ms ease-in;
+
       &:hover {
         color: #40aaff;
+        letter-spacing: 0.2rem;
       }
     }
   }
@@ -24,10 +27,12 @@ export const Wrapper = styled.div`
 export const Logout = styled.span`
   font-size: 1rem;
   padding-bottom: 7px;
+  transition: all 300ms ease-in;
 
   &:hover {
     cursor: pointer;
     color: #40aaff;
     border-bottom: 2px solid #40aaff;
+    letter-spacing: 0.2rem;
   }
 `;

@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Icon, Input, Button, Typography } from "antd";
 import axios from "axios";
-import { withRouter, Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../../components/fetcher";
 import { Loading, LoginContainer, Message } from "./style";
@@ -11,6 +11,7 @@ import { Loading, LoginContainer, Message } from "./style";
 const { Title } = Typography;
 
 const LoginPage = (props) => {
+  const history = useHistory();
   const [formErrorMessage, setFormErrorMessage] = useState("");
   const { data: DATA } = useSWR("/api/users/user", fetcher);
 
@@ -19,7 +20,7 @@ const LoginPage = (props) => {
   }
 
   if (DATA?.token) {
-    props.history.push("/");
+    history.push("/");
   }
 
   return (
@@ -44,7 +45,7 @@ const LoginPage = (props) => {
           };
           axios.post("/api/users/login", data).then((response) => {
             if (response.data.success) {
-              props.history.push("/");
+              history.push("/");
             } else {
               alert(response.data.msg);
             }
@@ -139,4 +140,4 @@ const LoginPage = (props) => {
     </LoginContainer>
   );
 };
-export default withRouter(LoginPage);
+export default LoginPage;

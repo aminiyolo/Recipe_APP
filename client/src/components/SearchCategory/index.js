@@ -1,4 +1,3 @@
-import React from "react";
 import { Col } from "antd";
 import { CategoryBox, Image, ImageP, colStyle } from "./style";
 

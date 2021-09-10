@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import dayjs from "dayjs";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { RegisterContainer } from "./style";
 import useSWR from "swr";
 import fetcher from "../../components/fetcher";
@@ -35,13 +35,14 @@ const tailFormItemLayout = {
 
 const RegisterPage = (props) => {
   const { data: DATA } = useSWR("/api/users/user", fetcher);
+  const history = useHistory();
 
   if (DATA === undefined) {
     return <Loading>Loading...</Loading>;
   }
 
   if (DATA?.token) {
-    props.history.push("/");
+    history.push("/");
   }
 
   return (
@@ -83,7 +84,7 @@ const RegisterPage = (props) => {
                 alert(res.data.msg);
               } else {
                 alert("Congratulations! Register was successful");
-                props.history.push("/login");
+                history.push("/login");
               }
             } catch (err) {
               alert(err);
@@ -203,7 +204,7 @@ const RegisterPage = (props) => {
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>
-                  <Button onClick={handleSubmit} type="primary">
+                  <Button onClick={() => handleSubmit} type="primary">
                     Submit
                   </Button>
                 </Form.Item>
@@ -216,4 +217,4 @@ const RegisterPage = (props) => {
   );
 };
 
-export default withRouter(RegisterPage);
+export default RegisterPage;

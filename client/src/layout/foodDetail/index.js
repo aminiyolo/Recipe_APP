@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, VFC } from "react";
 import {
   CreateModal,
   CloseModalButton,
@@ -14,15 +14,18 @@ import {
 } from "./style";
 import useSWR from "swr";
 import fetcher from "../../components/fetcher";
-import { withRouter } from "react-router";
+import { useHistory } from "react-router";
+import VideoPlayer from "../../components/VideoPlayer";
 
-const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
+const FoodDetail = ({ onCloseModal, foodDetail }) => {
   const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodDetail.idMeal}`;
+  const history = useHistory();
   const { data } = useSWR("/api/users/user", fetcher);
   const [detail, setDatail] = useState(null);
   const [video, setVideo] = useState(null);
   const [favorite, setFavorite] = useState(false);
   const [ingredients, setIngredients] = useState(null);
+  const [playVideo, setPlayVideo] = useState(false);
 
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
@@ -56,8 +59,12 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
   };
 
   const onClickVideo = useCallback(() => {
-    window.open(`${video}`);
+    setPlayVideo(true);
   }, [video]);
+
+  const onCloseVideo = () => {
+    setPlayVideo(false);
+  };
 
   const favoriteHandler = useCallback(() => {
     if (data.isAuth === false) {
@@ -115,47 +122,54 @@ const FoodDetail = ({ onCloseModal, foodDetail, history }) => {
   if (detail) {
     return (
       <CreateModal onClick={onCloseModal}>
-        <div onClick={stopPropagation}>
-          <CloseModalButton onClick={onCloseModal}>
-            <span>&times;</span>
-          </CloseModalButton>
-          <div className="detailBox">
-            {foodDetail !== [] && (
-              <div>
-                <h1 className="foodName">{foodDetail.strMeal}</h1>
-                <ButtonContainer>
-                  <button
-                    onClick={favoriteHandler}
-                    style={favorite ? added : normal}
-                  >
-                    {favorite ? "Already Added" : "Add to Favorite"}
-                  </button>
-                  <button style={normal} onClick={onClickVideo}>
-                    See the Video
-                  </button>
-                </ButtonContainer>
-                <Img src={foodDetail.strMealThumb} alt={foodDetail.strMeal} />
-                <Ul>
-                  <IngredientsTitle>Ingredients:</IngredientsTitle>
-                  <div>
-                    {ingredients?.map((ingredient, index) => (
-                      <li style={{ fontSize: "14px" }} key={index}>
-                        {ingredient}
-                      </li>
-                    ))}
-                  </div>
-                </Ul>
-                <IngredientsP>Instructions:</IngredientsP>
-                {detail && <Detail>{detail}</Detail>}
-              </div>
-            )}
+        {playVideo && ( // when a video button clicked
+          <VideoPlayer
+            onCloseVideo={onCloseVideo}
+            url={video.slice(video.indexOf("=") + 1)}
+          />
+        )}
+        {!playVideo && (
+          <div onClick={stopPropagation}>
+            <CloseModalButton onClick={onCloseModal}>
+              <span>&times;</span>
+            </CloseModalButton>
+            <div className="detailBox">
+              {foodDetail !== [] && (
+                <div>
+                  <h1 className="foodName">{foodDetail.strMeal}</h1>
+                  <ButtonContainer>
+                    <button
+                      onClick={favoriteHandler}
+                      style={favorite ? added : normal}
+                    >
+                      {favorite ? "Already Added" : "Add to Favorite"}
+                    </button>
+                    <button style={normal} onClick={onClickVideo}>
+                      See the Video
+                    </button>
+                  </ButtonContainer>
+                  <Img src={foodDetail.strMealThumb} alt={foodDetail.strMeal} />
+                  <Ul>
+                    <IngredientsTitle>Ingredients:</IngredientsTitle>
+                    <div>
+                      {ingredients?.map((ingredient, index) => (
+                        <li style={{ fontSize: "14px" }} key={index}>
+                          {ingredient}
+                        </li>
+                      ))}
+                    </div>
+                  </Ul>
+                  <IngredientsP>Instructions:</IngredientsP>
+                  {detail && <Detail>{detail}</Detail>}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </CreateModal>
     );
   } else {
     return <div></div>;
   }
 };
-
-export default withRouter(FoodDetail);
+export default FoodDetail;

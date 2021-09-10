@@ -57,6 +57,11 @@ export const Button = styled.button`
   border: none;
   color: white;
   background-color: #40a9ff;
+  cursor: pointer;
+  transition: all 300ms ease-out;
+  &:hover {
+    letter-spacing: 0.2rem;
+  }
 `;
 
 export const Loading = styled.div`

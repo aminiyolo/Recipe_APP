@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, LeftMenu } from "./style";
 import RightMenu from "./RightMenu";

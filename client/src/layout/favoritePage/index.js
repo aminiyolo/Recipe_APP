@@ -4,12 +4,13 @@ import fetcher from "../../components/fetcher";
 import axios from "axios";
 import useSWR from "swr";
 import { Popover } from "antd";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Detail, Button, Loading } from "./style";
 
-const FavoritePage = ({ history }) => {
+const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState(null);
   const { data } = useSWR("/api/users/user", fetcher);
+  const history = useHistory();
 
   let userFrom;
   let dataToSubmit;
@@ -122,4 +123,4 @@ const FavoritePage = ({ history }) => {
   );
 };
 
-export default withRouter(FavoritePage);
+export default FavoritePage;
