@@ -104,7 +104,7 @@ const LandingPage = () => {
         </div>
         <div className="formBox">
           <Form
-            // type="submit"
+            type="submit"
             onSubmit={onSubmit}
             autoComplete="off"
             style={formStyle}

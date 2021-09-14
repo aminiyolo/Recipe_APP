@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export const Comment = styled.div`
   display: flex;
   margin-bottom: 20px;
+  color: black;
 `;
 
 export const Img = styled.img`
@@ -22,6 +24,18 @@ export const Detail = styled.div`
     & > span {
       margin-left: 20px;
     }
+    @media screen and (max-width: 415px) {
+      font-size: 0.7rem;
+      margin-left: 0px;
+    }
+  }
+`;
+
+export const DeleteButton = styled(DeleteOutlined)`
+  color: red;
+  cursor: pointer;
+  &:hover {
+    transform: rotate(-15deg);
   }
 `;
 

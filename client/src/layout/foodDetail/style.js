@@ -57,6 +57,13 @@ export const CloseModalButton = styled.button`
   & > span {
     color: #00bffd;
   }
+
+  &:hover {
+    transform: scale(1.1);
+    & > span {
+      color: lightcoral;
+    }
+  }
 `;
 
 export const ButtonContainer = styled.div`

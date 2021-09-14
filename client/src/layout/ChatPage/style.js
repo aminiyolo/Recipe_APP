@@ -7,6 +7,10 @@ export const ChatPageContainer = styled.div`
   & > h2 {
     margin-left: 70px;
   }
+
+  @media screen and (max-width: 415px) {
+    width: 88%;
+  }
 `;
 
 export const FormBox = styled.div`

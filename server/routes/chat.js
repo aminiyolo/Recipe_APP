@@ -21,4 +21,13 @@ router.get("/getChat", async (req, res) => {
   }
 });
 
+router.post("/removeChat", async (req, res) => {
+  try {
+    await Chat.findByIdAndDelete({ _id: req.body.id });
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 module.exports = router;

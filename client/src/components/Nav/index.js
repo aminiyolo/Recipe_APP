@@ -10,7 +10,7 @@ const Nav = () => {
           <Link to="/">Find Recipe</Link>
         </h2>
         <p className="favorite">
-          <Link to="/favorite">Favorite</Link>
+          <Link to="/favorite">Favorites</Link>
         </p>
         <p className="chat">
           <Link to="/chat">Guest Book</Link>

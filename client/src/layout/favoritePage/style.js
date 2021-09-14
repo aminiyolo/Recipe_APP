@@ -24,10 +24,15 @@ export const FoodTitle = styled.h1`
 `;
 
 export const FoodImg = styled.img`
-  width: 80%;
-  height: 28rem;
+  width: 50%;
+  height: 24rem;
   border-radius: 3%;
   margin-bottom: 0.6rem;
+
+  @media screen and (max-device-width: 415px) {
+    width: 70%;
+    height: 20rem;
+  }
 `;
 
 export const Ul = styled.ul`

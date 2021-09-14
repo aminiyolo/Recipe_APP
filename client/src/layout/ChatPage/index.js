@@ -59,7 +59,7 @@ const ChatPage = ({ Data }) => {
       <h2>This is a Guest Book !</h2>
       <hr />
       <br />
-      <Comment comments={comments} setComments={setComments} />
+      <Comment comments={comments} setComments={setComments} userData={DATA} />
       <FormBox>
         <form>
           <TextArea value={value} onChange={valueHandler} onSubmit={onSubmit} />
