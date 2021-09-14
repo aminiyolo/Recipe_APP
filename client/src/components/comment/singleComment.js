@@ -4,7 +4,7 @@ import { Img, Detail, Comment, DeleteButton } from "./style";
 const SingleComment = ({ comment, owner, removeComment }) => {
   return (
     <Comment>
-      <Img src={comment.writer.image} alt="write-image" />
+      <Img src={comment.writer.image} alt="writer-image" />
       <Detail>
         <span>{comment.writer.name}</span>
         <div>

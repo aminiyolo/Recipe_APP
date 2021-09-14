@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ChatPageContainer = styled.div`
   width: 80%;
-  height: 100vh;
+  height: 80vh;
   margin: 60px auto;
   & > h2 {
     margin-left: 70px;

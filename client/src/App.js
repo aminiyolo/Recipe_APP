@@ -25,7 +25,7 @@ function App() {
             <Route path="/register" component={RegisterPage} />
             <Route exact path="/favorite" component={FavoritePage} />
             <Route path="/favorite/:id" component={Detail} />
-            <Route path="/chat" render={() => <ChatPage Data={data} />} />
+            <Route path="/chat" component={ChatPage} />
           </Switch>
         </div>
       </div>
