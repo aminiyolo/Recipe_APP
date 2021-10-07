@@ -1,12 +1,11 @@
 /node_modules
 /build
 
-dev.js
-
-
-
+.env
+/auth
 .DS_Store
 
+/yarn.lock
 npm-debug.log*
 yarn-debug.kog*
 yarn-error.log*

@@ -1,7 +1,14 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const config = require("./config/key");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const userRoute = require("./routes/user");
+const favoriteRoute = require("./routes/favorite");
+const chatRoute = require("./routes/chat");
+const mailRoute = require("./routes/authMail");
+
 const cookieParser = require("cookie-parser");
 
 app.use(express.urlencoded({ extended: true }));
@@ -9,7 +16,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 mongoose
-  .connect(config.mongoURI, {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -18,10 +25,11 @@ mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log("Not Working"));
 
-app.use("/api/users", require("../server/routes/user"));
-app.use("/api/favorite", require("../server/routes/favorite"));
-app.use("/api/chat", require("../server/routes/chat"));
+app.use("/api/users", userRoute);
+app.use("/api/favorite", favoriteRoute);
+app.use("/api/chat", chatRoute);
+app.use("/api/auth", mailRoute);
 
-const port = process.env.PORT || 3330;
+const port = 3330;
 
 app.listen(port, () => console.log(`${port} port is working`));

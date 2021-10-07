@@ -1,19 +1,15 @@
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import fetcher from "./components/fetcher";
-import useSWR from "swr";
 import loadble from "@loadable/component";
 
-const LandingPage = loadble(() => import("../src/layout/LandingPage"));
-const LoginPage = loadble(() => import("./layout/LoginPage"));
-const RegisterPage = loadble(() => import("./layout/RegisterPage"));
-const FavoritePage = loadble(() => import("./layout/favoritePage"));
-const Detail = loadble(() => import("./layout/favoritePage/detail"));
-const ChatPage = loadble(() => import("./layout/ChatPage"));
+const LandingPage = loadble(() => import("./pages/LandingPage"));
+const LoginPage = loadble(() => import("./pages/LoginPage"));
+const RegisterPage = loadble(() => import("./pages/RegisterPage"));
+const FavoritePage = loadble(() => import("./pages/favoritePage"));
+const Detail = loadble(() => import("./pages/favoritePage/detail"));
+const ChatPage = loadble(() => import("./pages/ChatPage"));
 const Nav = loadble(() => import("./components/Nav"));
 
 function App() {
-  const { data } = useSWR("api/users/user", fetcher);
-
   return (
     <BrowserRouter>
       <div style={{ backgroundColor: "#FDFDFD" }}>

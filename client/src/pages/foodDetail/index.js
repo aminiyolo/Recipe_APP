@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useState, VFC } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   CreateModal,
   CloseModalButton,
@@ -13,7 +13,7 @@ import {
   added,
 } from "./style";
 import useSWR from "swr";
-import fetcher from "../../components/fetcher";
+import fetcher from "../../hooks/useInput";
 import { useHistory } from "react-router";
 import VideoPlayer from "../../components/VideoPlayer";
 
@@ -101,7 +101,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   let dataToSubmit = {
     mealId: foodDetail.idMeal,
     mealTitle: foodDetail.strMeal,
-    userFrom: data._id,
+    userFrom: data?._id,
     mealImage: foodDetail.strMealThumb,
   };
 

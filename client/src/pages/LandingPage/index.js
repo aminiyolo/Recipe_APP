@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import useInput from "../../components/hook";
+import useInput from "../../hooks/useInput";
 import { SearchOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import Quote from "../../components/Quotes/quotes";

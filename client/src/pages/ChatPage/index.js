@@ -1,11 +1,14 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Button, Input } from "antd";
 import Comment from "../../components/comment";
-import useInput from "../../components/hook";
+import useInput from "../../hooks/useInput";
 import axios from "axios";
 import useSWR from "swr";
-import fetcher from "../../components/fetcher";
+import fetcher from "../../hooks/fetcher";
 import { ChatPageContainer, FormBox } from "./style";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const { TextArea } = Input;
 
@@ -33,7 +36,8 @@ const ChatPage = () => {
       if (DATA.isAuth === false) {
         // 로그인 유저가 아닐 시
         setValue("");
-        return alert("You need to login");
+        toast.error("You need to login");
+        return;
       }
 
       if (!value.trim()) return;
@@ -46,7 +50,6 @@ const ChatPage = () => {
       const getData = async () => {
         try {
           const res = await axios.post("/api/chat/saveChat", data);
-          console.log(res);
           let chat = [
             {
               _id: res.data._id,
@@ -81,7 +84,7 @@ const ChatPage = () => {
   return (
     <ChatPageContainer>
       <br />
-      <h2>This is a Guest Book !</h2>
+      <h2>You can write whatever you want !</h2>
       <hr />
       <br />
       <Comment comments={comments} setComments={setComments} userData={DATA} />
@@ -91,6 +94,7 @@ const ChatPage = () => {
           <Button onClick={onSubmit}>Submit</Button>
         </form>
       </FormBox>
+      <ToastContainer />
     </ChatPageContainer>
   );
 };

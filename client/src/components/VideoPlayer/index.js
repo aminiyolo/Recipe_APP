@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { CloseModalButton } from "../../layout/foodDetail/style";
+import { CloseModalButton } from "../../pages/foodDetail/style";
 
 const VideoPlayer = ({ onCloseVideo, url }) => {
   const stopPropagation = useCallback((e) => {

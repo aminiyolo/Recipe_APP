@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import fetcher from "../../components/fetcher";
+import fetcher from "../../hooks/useInput";
 import axios from "axios";
 import useSWR from "swr";
 import { Popover } from "antd";
@@ -22,6 +22,24 @@ const FavoritePage = () => {
   dataToSubmit = {
     userFrom,
   };
+
+  useEffect(() => {
+    if (data) {
+      const getData = async () => {
+        try {
+          const res = await axios.post(
+            "/api/favorite/FavoritedMeal",
+            dataToSubmit
+          );
+          setFavoriteList(res.data);
+        } catch (err) {
+          alert("잠시 후에 다시 시도해주세요.");
+        }
+      };
+
+      getData();
+    }
+  }, [data]);
 
   const RenderList = favoriteList?.map((favoriteMeal, index) => {
     const content = (
@@ -63,7 +81,7 @@ const FavoritePage = () => {
       <React.Fragment key={index}>
         <tr>
           <Popover content={content} title={favoriteMeal.mealTitle}>
-            <th>{favoriteMeal.mealTitle}</th>
+            <th style={{ cursor: "pointer" }}>{favoriteMeal.mealTitle}</th>
           </Popover>
           <th>
             <Link to={`/favorite/${favoriteMeal.mealId}`}>See the Detail</Link>
@@ -75,24 +93,6 @@ const FavoritePage = () => {
       </React.Fragment>
     );
   });
-
-  useEffect(() => {
-    if (data) {
-      const getData = async () => {
-        try {
-          const res = await axios.post(
-            "/api/favorite/FavoritedMeal",
-            dataToSubmit
-          );
-          setFavoriteList(res.data);
-        } catch (err) {
-          alert("잠시 후에 다시 시도해주세요.");
-        }
-      };
-
-      getData();
-    }
-  }, [data, dataToSubmit]);
 
   if (favoriteList === null) {
     return <Loading>Loading...</Loading>;
