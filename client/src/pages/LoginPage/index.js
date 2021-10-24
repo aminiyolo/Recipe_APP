@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import {
@@ -15,6 +15,9 @@ import {
 import useInput from "../../hooks/useInput";
 import useSWR from "swr";
 import fetcher from "../../hooks/fetcher";
+import { login } from "../../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSet } from "../../redux/userRedux";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,6 +28,8 @@ const LoginPage = () => {
   const [ID, onChangeID] = useInput("");
   const [password, onChangePassword] = useInput("");
   const [emptyCheck, setEmptyCheck] = useState(false);
+  const { isFetching, error, user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const onSubmit = useCallback(
     (e) => {
@@ -41,28 +46,36 @@ const LoginPage = () => {
         password,
       };
 
-      const login = async () => {
-        try {
-          const res = await axios.post("/api/users/login", data);
-          if (res.data.success) {
-            revalidate();
-            history.push("/");
-          } else {
-            toast.error(res.data.msg);
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      };
+      login(dispatch, data);
+      // const login = async () => {
+      //   try {
+      //     const res = await axios.post("/api/users/login", data);
+      //     if (res.status === 200) {
+      //       console.log(res.data);
+      //       revalidate();
+      //       history.push("/");
+      //     } else {
+      //       toast.error(res.data.msg);
+      //     }
+      //   } catch (err) {
+      //     console.log(err);
+      //   }
+      // };
 
-      login();
+      // login();
     },
-    [ID, password, history, revalidate]
+    [ID, password, history]
   );
 
-  if (data?.token) {
-    history.push("/");
-  }
+  user && history.push("/");
+  // if (data?.token) {
+  //   history.push("/");
+  // }
+
+  useEffect(() => {
+    dispatch(loginSet());
+    error && toast.error("Check your ID and Password");
+  }, [error]);
 
   if (data === undefined) {
     return <Loading>Loading...</Loading>;
@@ -95,7 +108,9 @@ const LoginPage = () => {
           />
           {emptyCheck && <Error>아이디와 비밀번호를 모두 작성해주세요.</Error>}
         </Label>
-        <Button type="submit">로그인</Button>
+        <Button type="submit" disabled={isFetching}>
+          로그인
+        </Button>
       </Form>
       <LinkContainer>
         아직 회원이 아니신가요?&nbsp;

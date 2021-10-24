@@ -5,10 +5,11 @@ import useSWR from "swr";
 import fetcher from "../../hooks/fetcher";
 import axios from "axios";
 import { RightMenuContainer, Wrapper, Logout } from "./style";
+import { useSelector } from "react-redux";
 
 const Nav = () => {
   const { data, revalidate } = useSWR("/api/users/user", fetcher);
-
+  const { user } = useSelector((state) => state.user);
   const history = useHistory();
 
   const logoutHandler = useCallback(() => {
@@ -30,7 +31,8 @@ const Nav = () => {
 
   return (
     <>
-      {data?.token ? (
+      {/* {data?.token ? ( */}
+      {user ? (
         <Navbar>
           <LeftMenu>
             <h2>

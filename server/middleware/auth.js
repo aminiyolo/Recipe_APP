@@ -2,7 +2,11 @@ const { User } = require("../model/user");
 
 let auth = (req, res, next) => {
   // Bring a token from client
-  let token = req.cookies.USER;
+  // console.log(req.headers.cookie?.slice(5));
+  console.log(req.headers);
+  // let token = req.cookies.USER;
+  console.log(req.headers.cookie);
+  let token = req.headers.cookie?.slice(5);
   // After decryption, find a user
   User.findByToken(token, (err, user) => {
     if (err) throw err;

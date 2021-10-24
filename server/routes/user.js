@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
     // Look for a requested ID in a database
     const user = await User.findOne({ ID: req.body.ID });
     if (!user) {
-      return res.json({ success: false, msg: "Doesn't Exist USER" });
+      return res.status(400).json("Doesn't Exist USER");
     }
     // If there is a data that we look for, Check the password if corrected
     const validPassword = await bcrypt.compare(
@@ -48,13 +48,15 @@ router.post("/login", async (req, res) => {
       user.password
     );
 
-    !validPassword && res.json({ msg: "password is incorrect" });
+    !validPassword && res.status(400).json("Wrong Password");
     // If the password is correct, Give a token
     await user.giveToken((err, user) => {
+      const { password, ...others } = user._doc;
       res
-        .cookie("USER", user.token)
+        // .cookie("USER", user.token)
         .status(200)
-        .json({ success: true, userId: user._id });
+        // .json({ success: true, userId: user._id });
+        .json(others);
     });
   } catch (err) {
     res.status(400).json(err);
