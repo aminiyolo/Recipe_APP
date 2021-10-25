@@ -16,14 +16,13 @@ import { Link, useHistory } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import axios from "axios";
 import dayjs from "dayjs";
-import useSWR from "swr";
-import fetcher from "../../hooks/fetcher";
+import { useSelector } from "react-redux";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUpPage = () => {
-  const { data, revalidate } = useSWR("/api/users/user", fetcher);
+  const { user } = useSelector((state) => state.user);
   const history = useHistory();
 
   const [authNum, onChangeAuthNum] = useInput("");
@@ -76,67 +75,56 @@ const SignUpPage = () => {
   }
 
   function checkIfShort(state, setState) {
-    if (state.length >= 1 && state.length < 6) setState(true);
-    else setState(false);
+    if (state.length >= 0 && state.length < 6) setState(() => true);
+    else setState(() => false);
   }
 
-  const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
+  const onSubmit = (e) => {
+    e.preventDefault();
 
-      ValidationCheck(nickname, setNickNameCheck);
-      ValidationCheck(password, setEmptyPassword);
-      ValidationCheck(ID, setEmptyID);
+    ValidationCheck(nickname, setNickNameCheck);
+    ValidationCheck(password, setEmptyPassword);
+    ValidationCheck(ID, setEmptyID);
 
-      checkIfShort(ID, setShortID);
-      checkIfShort(password, setShortPassword);
+    checkIfShort(ID, setShortID);
+    checkIfShort(password, setShortPassword);
 
-      if (!passwordCheck.trim() || !authCheck) return;
+    if (!passwordCheck.trim() || !authCheck) return;
 
-      if (!mismatchError) {
-        setSignUpSuccess(false);
+    if (!mismatchError && ID.length >= 6 && password.length >= 6) {
+      setSignUpSuccess(false);
 
-        let data = {
-          email: validatedEmail,
-          ID,
-          name: nickname,
-          password,
-          image: `http://gravatar.com/avatar/${dayjs(
-            new Date()
-          ).unix()}?d=identicon`,
-        };
+      let data = {
+        email: validatedEmail,
+        ID,
+        name: nickname,
+        password,
+        image: `http://gravatar.com/avatar/${dayjs(
+          new Date()
+        ).unix()}?d=identicon`,
+      };
 
-        const getResult = async () => {
-          try {
-            const res = await axios.post("/api/users/register", data);
-            if (res.data.success) {
-              // 회원가입 성공시에 팝업창 보여주기
-              toast.success("Congratulations, your account has been created");
-              setTimeout(() => {
-                history.push("/login");
-              }, 2500);
-            } else {
-              alert(res.data.msg);
-              location.reload();
-            }
-          } catch (err) {
-            console.log(err);
+      const getResult = async () => {
+        try {
+          const res = await axios.post("/api/users/register", data);
+          if (res.data.success) {
+            // 회원가입 성공시에 팝업창 보여주기
+            toast.success("Congratulations, your account has been created");
+            setTimeout(() => {
+              history.push("/login");
+            }, 2500);
+          } else {
+            alert(res.data.msg);
+            location.reload();
           }
-        };
-        getResult();
-      }
-    },
-    [
-      nickname,
-      password,
-      mismatchError,
-      authCheck,
-      passwordCheck,
-      ID,
-      validatedEmail,
-      history,
-    ]
-  );
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      getResult();
+    }
+  };
 
   const getAuthNum = useCallback(
     (e) => {
@@ -159,7 +147,6 @@ const SignUpPage = () => {
         try {
           const res = await axios.post("/api/auth/mail", data);
           if (res.data.success) {
-            revalidate();
             setAuth(res.data.authNum);
           }
         } catch (err) {
@@ -168,7 +155,7 @@ const SignUpPage = () => {
       };
       authNumber();
     },
-    [email, setAuth, revalidate]
+    [email, setAuth]
   );
 
   const onClickCheckAuthNum = useCallback(
@@ -185,13 +172,7 @@ const SignUpPage = () => {
     [auth, authNum]
   );
 
-  if (data?.token) {
-    history.push("/");
-  }
-
-  if (data === undefined) {
-    return <Loading>Loading...</Loading>;
-  }
+  user && history.push("/");
 
   return (
     <Background>
@@ -292,11 +273,13 @@ const SignUpPage = () => {
             {!password && emptyPassword && (
               <Error>비밀번호를 입력해주세요.</Error>
             )}
-            {signUpSuccess && (
+            {/* {signUpSuccess && (
               <Success>회원가입되었습니다! 로그인해주세요.</Success>
-            )}
+            )} */}
           </Label>
-          <Button onClick={onSubmit}>회원가입</Button>
+          <Button onClick={onSubmit} disabled={signUpSuccess}>
+            회원가입
+          </Button>
         </Form>
         <LinkContainer>
           이미 회원이신가요?&nbsp;

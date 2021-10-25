@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import {
   Form,
@@ -13,8 +12,6 @@ import {
   Container,
 } from "./style";
 import useInput from "../../hooks/useInput";
-import useSWR from "swr";
-import fetcher from "../../hooks/fetcher";
 import { login } from "../../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSet } from "../../redux/userRedux";
@@ -23,7 +20,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
-  const { data, revalidate } = useSWR("/api/users/user", fetcher);
   const history = useHistory();
   const [ID, onChangeID] = useInput("");
   const [password, onChangePassword] = useInput("");
@@ -47,39 +43,16 @@ const LoginPage = () => {
       };
 
       login(dispatch, data);
-      // const login = async () => {
-      //   try {
-      //     const res = await axios.post("/api/users/login", data);
-      //     if (res.status === 200) {
-      //       console.log(res.data);
-      //       revalidate();
-      //       history.push("/");
-      //     } else {
-      //       toast.error(res.data.msg);
-      //     }
-      //   } catch (err) {
-      //     console.log(err);
-      //   }
-      // };
-
-      // login();
     },
     [ID, password, history]
   );
 
   user && history.push("/");
-  // if (data?.token) {
-  //   history.push("/");
-  // }
 
   useEffect(() => {
     dispatch(loginSet());
     error && toast.error("Check your ID and Password");
   }, [error]);
-
-  if (data === undefined) {
-    return <Loading>Loading...</Loading>;
-  }
 
   return (
     <Container>

@@ -1,37 +1,21 @@
-import { useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Navbar, LeftMenu } from "./style";
-import useSWR from "swr";
-import fetcher from "../../hooks/fetcher";
-import axios from "axios";
 import { RightMenuContainer, Wrapper, Logout } from "./style";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/apiCalls";
 
 const Nav = () => {
-  const { data, revalidate } = useSWR("/api/users/user", fetcher);
   const { user } = useSelector((state) => state.user);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const logoutHandler = useCallback(() => {
-    const logout = async () => {
-      try {
-        const res = await axios.get("/api/users/logout");
-        if (res.status === 200) {
-          revalidate();
-          document.cookie = "USER=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"; // 쿠키 초기화
-          history.push("/login");
-        }
-      } catch (err) {
-        alert("Log Out Failed");
-      }
-    };
-
-    logout();
-  }, [history, revalidate]);
+  const logoutHandler = () => {
+    const value = window.confirm("Are you sure you want to log out ?");
+    value && logout(dispatch, user.token);
+  };
 
   return (
     <>
-      {/* {data?.token ? ( */}
       {user ? (
         <Navbar>
           <LeftMenu>

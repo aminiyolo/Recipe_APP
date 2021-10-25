@@ -3,19 +3,18 @@ import { Button, Input } from "antd";
 import Comment from "../../components/comment";
 import useInput from "../../hooks/useInput";
 import axios from "axios";
-import useSWR from "swr";
-import fetcher from "../../hooks/fetcher";
 import { ChatPageContainer, FormBox } from "./style";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 const { TextArea } = Input;
 
 const ChatPage = () => {
-  const { data: DATA } = useSWR("api/users/user", fetcher);
   const [value, valueHandler, setValue] = useInput("");
   const [comments, setComments] = useState(null);
+  const { user } = useSelector((state) => state.user);
 
   const getData = useCallback(async () => {
     try {
@@ -33,7 +32,7 @@ const ChatPage = () => {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (DATA.isAuth === false) {
+      if (!user) {
         // 로그인 유저가 아닐 시
         setValue("");
         toast.error("You need to login");
@@ -43,7 +42,7 @@ const ChatPage = () => {
       if (!value.trim()) return;
 
       let data = {
-        writer: DATA._id,
+        writer: user._id,
         content: value,
       };
 
@@ -54,9 +53,9 @@ const ChatPage = () => {
             {
               _id: res.data._id,
               writer: {
-                _id: DATA._id,
-                image: DATA.image,
-                name: DATA.name,
+                _id: user._id,
+                image: user.image,
+                name: user.name,
               },
               content: res.data.content,
               createAt: res.data.createdAt,
@@ -87,7 +86,7 @@ const ChatPage = () => {
       <h2>You can write whatever you want !</h2>
       <hr />
       <br />
-      <Comment comments={comments} setComments={setComments} userData={DATA} />
+      <Comment comments={comments} setComments={setComments} />
       <FormBox>
         <form onKeyPress={onKeyPress}>
           <TextArea value={value} onChange={valueHandler} onSubmit={onSubmit} />

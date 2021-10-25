@@ -12,15 +12,14 @@ import {
   normal,
   added,
 } from "./style";
-import useSWR from "swr";
-import fetcher from "../../hooks/useInput";
 import { useHistory } from "react-router";
 import VideoPlayer from "../../components/VideoPlayer";
+import { useSelector } from "react-redux";
 
 const FoodDetail = ({ onCloseModal, foodDetail }) => {
   const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodDetail.idMeal}`;
   const history = useHistory();
-  const { data } = useSWR("/api/users/user", fetcher);
+  const { user } = useSelector((state) => state.user);
   const [detail, setDatail] = useState(null);
   const [video, setVideo] = useState(null);
   const [favorite, setFavorite] = useState(false);
@@ -54,7 +53,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
       meal = res.data.meals[0];
       addIngredients(meal);
     } catch (err) {
-      alert("정보를 가져오지 못했습니다.");
+      alert("Failed to get a data, plz try again");
     }
   };
 
@@ -67,7 +66,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   };
 
   const favoriteHandler = useCallback(() => {
-    if (data.isAuth === false) {
+    if (!user) {
       // 비로그인 유저일 시
       let value = window.confirm("You need to login. Would you like to login?");
       if (value) history.push("/login");
@@ -80,7 +79,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
           await axios.post("/api/favorite/addToFavorite", dataToSubmit);
           setFavorite(true);
         } catch (err) {
-          alert("잠시 후에 다시 시도해주세요.");
+          alert("Try again a few seconds later");
         }
       };
 
@@ -91,7 +90,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
           await axios.post("/api/favorite/removeFromFavorite", dataToSubmit);
           setFavorite(false);
         } catch (err) {
-          alert("잠시 후에 다시 시도해주세요.");
+          alert("Try again a few seconds later");
         }
       };
       remove();
@@ -101,7 +100,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   let dataToSubmit = {
     mealId: foodDetail.idMeal,
     mealTitle: foodDetail.strMeal,
-    userFrom: data?._id,
+    userFrom: user?._id,
     mealImage: foodDetail.strMealThumb,
   };
 
@@ -112,7 +111,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
         const res = await axios.post("/api/favorite/favorited", dataToSubmit);
         setFavorite(res.data);
       } catch (err) {
-        alert("잠시 후에 다시 시도해주세요.");
+        alert("Try again a few seconds later");
       }
     };
 

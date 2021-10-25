@@ -27,7 +27,6 @@ router.post("/register", async (req, res) => {
       image: req.body.image,
     });
 
-    // const user = new User(req.body);
     await user.save();
     return res.status(200).json({ success: true });
   } catch (err) {
@@ -51,12 +50,8 @@ router.post("/login", async (req, res) => {
     !validPassword && res.status(400).json("Wrong Password");
     // If the password is correct, Give a token
     await user.giveToken((err, user) => {
-      const { password, ...others } = user._doc;
-      res
-        // .cookie("USER", user.token)
-        .status(200)
-        // .json({ success: true, userId: user._id });
-        .json(others);
+      const { password, token, ...others } = user._doc;
+      res.status(200).json({ ...others, token });
     });
   } catch (err) {
     res.status(400).json(err);
@@ -70,10 +65,6 @@ router.get("/logout", auth, async (req, res) => {
   } catch (err) {
     return res.status(500).json(err);
   }
-});
-
-router.get("/user", auth, (req, res) => {
-  return res.json(req.user);
 });
 
 module.exports = router;

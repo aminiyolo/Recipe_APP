@@ -92,7 +92,12 @@ const LandingPage = () => {
   }, [recipes]);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
     getAllData();
+
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   return (

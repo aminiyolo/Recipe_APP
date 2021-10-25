@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import SingleComment from "./SingleComment";
 import { CommentContainer, Loading } from "./style";
 
-const Comment = ({ comments, setComments, userData }) => {
+const Comment = ({ comments, setComments }) => {
   const scrollRef = useRef();
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -35,7 +37,7 @@ const Comment = ({ comments, setComments, userData }) => {
         <div key={index} ref={scrollRef}>
           <SingleComment
             comment={comment}
-            owner={userData?._id === comment.writer._id}
+            owner={user?._id === comment.writer._id}
             removeComment={removeComment}
           />
         </div>

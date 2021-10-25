@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import fetcher from "../../hooks/useInput";
 import axios from "axios";
-import useSWR from "swr";
 import { Popover } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import { Detail, Button, Loading } from "./style";
+import { useSelector } from "react-redux";
 
 const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState(null);
-  const { data } = useSWR("/api/users/user", fetcher);
+  const { user } = useSelector((state) => state.user);
   const history = useHistory();
 
   let userFrom;
   let dataToSubmit;
 
-  if (data) {
-    userFrom = data._id;
+  if (user) {
+    userFrom = user._id;
   }
 
   dataToSubmit = {
@@ -24,7 +23,7 @@ const FavoritePage = () => {
   };
 
   useEffect(() => {
-    if (data) {
+    if (user) {
       const getData = async () => {
         try {
           const res = await axios.post(
@@ -38,8 +37,11 @@ const FavoritePage = () => {
       };
 
       getData();
+    } else {
+      alert("You need to login");
+      history.push("/");
     }
-  }, [data]);
+  }, []);
 
   const RenderList = favoriteList?.map((favoriteMeal, index) => {
     const content = (
@@ -56,25 +58,21 @@ const FavoritePage = () => {
       </div>
     );
 
-    const onRemove = () => {
+    const onRemove = async () => {
       let removeData = {
         userFrom,
         mealId: favoriteMeal.mealId,
       };
 
-      axios
-        .post("/api/favorite/removeFromFavorite", removeData)
-        .then((response) => {
-          if (response.data.success) {
-            axios
-              .post("/api/favorite/FavoritedMeal", removeData)
-              .then((response) => {
-                if (response.data.success) {
-                  setFavoriteList(response.data.list);
-                }
-              });
-          }
-        });
+      try {
+        await axios.post("/api/favorite/removeFromFavorite", removeData);
+        alert("deletion was successful");
+        setFavoriteList(
+          favoriteList.filter((f) => f.mealId !== removeData.mealId)
+        );
+      } catch (err) {
+        alert("Please try again");
+      }
     };
 
     return (
@@ -98,7 +96,7 @@ const FavoritePage = () => {
     return <Loading>Loading...</Loading>;
   }
 
-  if (data.isAuth === false) {
+  if (!user) {
     let res = window.confirm("You need to login, Would you like to login?");
     if (res) {
       history.push("/login");

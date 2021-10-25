@@ -27,7 +27,7 @@ router.post("/removeFromFavorite", async (req, res) => {
       mealId: req.body.mealId,
       userFrom: req.body.userFrom,
     });
-    return res.status(200).json({ success: true });
+    return res.status(200).json();
   } catch (err) {
     return res.status(500).json(err);
   }
