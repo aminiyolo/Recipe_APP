@@ -6,16 +6,19 @@ import { Link, useHistory } from "react-router-dom";
 import { Detail, Button, Loading } from "./style";
 import { useSelector } from "react-redux";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const FavoritePage = () => {
   const [favoriteList, setFavoriteList] = useState(null);
-  const { user } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state);
   const history = useHistory();
 
   let userFrom;
   let dataToSubmit;
 
-  if (user) {
-    userFrom = user._id;
+  if (currentUser) {
+    userFrom = currentUser._id;
   }
 
   dataToSubmit = {
@@ -23,7 +26,7 @@ const FavoritePage = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (currentUser) {
       const getData = async () => {
         try {
           const res = await axios.post(
@@ -66,7 +69,8 @@ const FavoritePage = () => {
 
       try {
         await axios.post("/api/favorite/removeFromFavorite", removeData);
-        alert("deletion was successful");
+        // alert("deletion was successful");
+        toast.success("Deletion was successful");
         setFavoriteList(
           favoriteList.filter((f) => f.mealId !== removeData.mealId)
         );
@@ -96,7 +100,7 @@ const FavoritePage = () => {
     return <Loading>Loading...</Loading>;
   }
 
-  if (!user) {
+  if (!currentUser) {
     let res = window.confirm("You need to login, Would you like to login?");
     if (res) {
       history.push("/login");
@@ -117,6 +121,7 @@ const FavoritePage = () => {
         </thead>
         <tbody>{RenderList}</tbody>
       </table>
+      <ToastContainer />
     </Detail>
   );
 };

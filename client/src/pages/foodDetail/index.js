@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 const FoodDetail = ({ onCloseModal, foodDetail }) => {
   const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodDetail.idMeal}`;
   const history = useHistory();
-  const { user } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state);
   const [detail, setDatail] = useState(null);
   const [video, setVideo] = useState(null);
   const [favorite, setFavorite] = useState(false);
@@ -66,7 +66,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   };
 
   const favoriteHandler = useCallback(() => {
-    if (!user) {
+    if (!currentUser) {
       // 비로그인 유저일 시
       let value = window.confirm("You need to login. Would you like to login?");
       if (value) history.push("/login");
@@ -100,7 +100,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   let dataToSubmit = {
     mealId: foodDetail.idMeal,
     mealTitle: foodDetail.strMeal,
-    userFrom: user?._id,
+    userFrom: currentUser?._id,
     mealImage: foodDetail.strMealThumb,
   };
 

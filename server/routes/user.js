@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
+const CryptoJS = require("crypto-js");
+// const bcrypt = require("bcrypt");
 
 const { User } = require("../model/user");
 const { auth } = require("../middleware/auth");
@@ -16,13 +17,16 @@ router.post("/register", async (req, res) => {
     }
 
     // If not, continue
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const user = new User({
       name: req.body.name,
       email: req.body.email,
-      password: hashedPassword,
+      password: CryptoJS.AES.encrypt(
+        req.body.password,
+        process.env.SECRET_KEY
+      ).toString(),
       ID: req.body.ID,
       image: req.body.image,
     });
@@ -42,16 +46,19 @@ router.post("/login", async (req, res) => {
       return res.status(400).json("Doesn't Exist USER");
     }
     // If there is a data that we look for, Check the password if corrected
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.SECRET_KEY
     );
 
-    !validPassword && res.status(400).json("Wrong Password");
+    const decryptedPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+    if (decryptedPassword !== req.body.password) {
+      return res.status(400).json("Wrong Password");
+    }
     // If the password is correct, Give a token
     await user.giveToken((err, user) => {
-      const { password, token, ...others } = user._doc;
-      res.status(200).json({ ...others, token });
+      const { password, ...others } = user._doc;
+      res.status(200).json({ ...others });
     });
   } catch (err) {
     res.status(400).json(err);

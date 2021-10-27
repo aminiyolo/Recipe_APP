@@ -14,7 +14,7 @@ const { TextArea } = Input;
 const ChatPage = () => {
   const [value, valueHandler, setValue] = useInput("");
   const [comments, setComments] = useState(null);
-  const { user } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state);
 
   const getData = useCallback(async () => {
     try {
@@ -32,7 +32,7 @@ const ChatPage = () => {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (!user) {
+      if (!currentUser) {
         // 로그인 유저가 아닐 시
         setValue("");
         toast.error("You need to login");
@@ -42,7 +42,7 @@ const ChatPage = () => {
       if (!value.trim()) return;
 
       let data = {
-        writer: user._id,
+        writer: currentUser._id,
         content: value,
       };
 
@@ -53,9 +53,9 @@ const ChatPage = () => {
             {
               _id: res.data._id,
               writer: {
-                _id: user._id,
-                image: user.image,
-                name: user.name,
+                _id: currentUser._id,
+                image: currentUser.image,
+                name: currentUser.name,
               },
               content: res.data.content,
               createAt: res.data.createdAt,

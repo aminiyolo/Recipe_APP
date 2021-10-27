@@ -5,18 +5,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/apiCalls";
 
 const Nav = () => {
-  const { user } = useSelector((state) => state.user);
-  const history = useHistory();
+  const { currentUser } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
     const value = window.confirm("Are you sure you want to log out ?");
-    value && logout(dispatch, user.token);
+    value && logout(dispatch, currentUser.token);
   };
 
   return (
     <>
-      {user ? (
+      {currentUser ? (
         <Navbar>
           <LeftMenu>
             <h2>

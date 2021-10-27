@@ -22,7 +22,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUpPage = () => {
-  const { user } = useSelector((state) => state.user);
+  const { currentUser, isFetching, error } = useSelector((state) => state);
   const history = useHistory();
 
   const [authNum, onChangeAuthNum] = useInput("");
@@ -109,10 +109,8 @@ const SignUpPage = () => {
           const res = await axios.post("/api/users/register", data);
           if (res.data.success) {
             // 회원가입 성공시에 팝업창 보여주기
-            toast.success("Congratulations, your account has been created");
-            setTimeout(() => {
-              history.push("/login");
-            }, 2500);
+            alert("Congratulations, your account has been created");
+            history.push("/login");
           } else {
             alert(res.data.msg);
             location.reload();
@@ -172,7 +170,7 @@ const SignUpPage = () => {
     [auth, authNum]
   );
 
-  user && history.push("/");
+  currentUser && history.push("/");
 
   return (
     <Background>
@@ -277,9 +275,7 @@ const SignUpPage = () => {
               <Success>회원가입되었습니다! 로그인해주세요.</Success>
             )} */}
           </Label>
-          <Button onClick={onSubmit} disabled={signUpSuccess}>
-            회원가입
-          </Button>
+          <Button onClick={onSubmit}>회원가입</Button>
         </Form>
         <LinkContainer>
           이미 회원이신가요?&nbsp;

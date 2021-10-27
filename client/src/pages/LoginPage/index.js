@@ -24,7 +24,7 @@ const LoginPage = () => {
   const [ID, onChangeID] = useInput("");
   const [password, onChangePassword] = useInput("");
   const [emptyCheck, setEmptyCheck] = useState(false);
-  const { isFetching, error, user } = useSelector((state) => state.user);
+  const { currentUser, isFetching, error } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const onSubmit = useCallback(
@@ -47,7 +47,7 @@ const LoginPage = () => {
     [ID, password, history]
   );
 
-  user && history.push("/");
+  currentUser && history.push("/");
 
   useEffect(() => {
     dispatch(loginSet());

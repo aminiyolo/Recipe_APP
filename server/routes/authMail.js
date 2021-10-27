@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const path = require("path");
 var appDir = path.dirname(require.main.filename);
-const { NODEMAILER_USER, NODEMAILER_PASS } = require("../auth/index");
+// const { NODEMAILER_USER, NODEMAILER_PASS } = require("../auth/index");
 
 router.post("/mail", async (req, res) => {
   let authNum = Math.random().toString().substr(2, 6);
@@ -26,8 +26,8 @@ router.post("/mail", async (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: NODEMAILER_USER,
-      pass: NODEMAILER_PASS,
+      user: process.env.NODEMAILER_USER,
+      pass: process.env.NODEMAILER_PASS,
     },
   });
 

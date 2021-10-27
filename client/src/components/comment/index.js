@@ -4,9 +4,12 @@ import { useSelector } from "react-redux";
 import SingleComment from "./SingleComment";
 import { CommentContainer, Loading } from "./style";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Comment = ({ comments, setComments }) => {
   const scrollRef = useRef();
-  const { user } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -20,6 +23,7 @@ const Comment = ({ comments, setComments }) => {
     try {
       const res = await axios.post("/api/chat/removeChat", data);
       if (res.data.success) {
+        toast.success("Deletion was successful");
         setComments(comments.filter((comment) => comment._id !== id));
       }
     } catch (err) {
@@ -37,11 +41,12 @@ const Comment = ({ comments, setComments }) => {
         <div key={index} ref={scrollRef}>
           <SingleComment
             comment={comment}
-            owner={user?._id === comment.writer._id}
+            owner={currentUser?._id === comment.writer._id}
             removeComment={removeComment}
           />
         </div>
       ))}
+      <ToastContainer />
     </CommentContainer>
   );
 };
