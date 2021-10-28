@@ -4,7 +4,6 @@ const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const path = require("path");
 var appDir = path.dirname(require.main.filename);
-// const { NODEMAILER_USER, NODEMAILER_PASS } = require("../auth/index");
 
 router.post("/mail", async (req, res) => {
   let authNum = Math.random().toString().substr(2, 6);

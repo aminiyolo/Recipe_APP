@@ -2,7 +2,6 @@
 /build
 
 .env
-/auth
 .DS_Store
 
 /yarn.lock

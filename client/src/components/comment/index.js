@@ -23,7 +23,7 @@ const Comment = ({ comments, setComments }) => {
     try {
       const res = await axios.post("/api/chat/removeChat", data);
       if (res.data.success) {
-        toast.success("Deletion was successful");
+        toast.success("Deletion was successful", { autoClose: 2500 });
         setComments(comments.filter((comment) => comment._id !== id));
       }
     } catch (err) {

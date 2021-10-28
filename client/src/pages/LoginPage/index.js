@@ -8,7 +8,6 @@ import {
   LinkContainer,
   Button,
   Header,
-  Loading,
   Container,
 } from "./style";
 import useInput from "../../hooks/useInput";
@@ -51,7 +50,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     dispatch(loginSet());
-    error && toast.error("Check your ID and Password");
+    error && toast.error("Check your ID and Password", { autoClose: 2500 });
+
+    return () => {};
   }, [error]);
 
   return (

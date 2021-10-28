@@ -35,7 +35,7 @@ const ChatPage = () => {
       if (!currentUser) {
         // 로그인 유저가 아닐 시
         setValue("");
-        toast.error("You need to login");
+        toast.error("You need to login", { autoClose: 2500 });
         return;
       }
 

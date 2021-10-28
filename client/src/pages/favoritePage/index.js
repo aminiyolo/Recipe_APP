@@ -69,8 +69,7 @@ const FavoritePage = () => {
 
       try {
         await axios.post("/api/favorite/removeFromFavorite", removeData);
-        // alert("deletion was successful");
-        toast.success("Deletion was successful");
+        toast.success("Deletion was successful", { autoClose: 2000 });
         setFavoriteList(
           favoriteList.filter((f) => f.mealId !== removeData.mealId)
         );

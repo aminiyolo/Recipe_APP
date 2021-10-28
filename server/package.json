@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "backend": "supervisor index",
+    "server": "supervisor index",
     "back": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
