@@ -13,9 +13,12 @@ router.post("/saveChat", async (req, res) => {
 });
 
 router.get("/getChat", async (req, res) => {
+  const cursor = req.query.cursor || "";
   try {
     const chatData = await Chat.find().populate("writer");
-    return res.status(200).json(chatData);
+    const fromIndex =
+      chatData.reverse().findIndex((chat) => chat.id === cursor) + 1;
+    return res.status(200).json(chatData.slice(fromIndex, fromIndex + 6));
   } catch (err) {
     return res.status(500).json(err);
   }

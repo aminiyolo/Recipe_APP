@@ -1,33 +1,43 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { Button, Input } from "antd";
-import Comment from "../../components/comment";
 import useInput from "../../hooks/useInput";
 import axios from "axios";
-import { ChatPageContainer, FormBox } from "./style";
+import { ChatPageContainer, FormBox, Footer } from "./style";
+import { CommentContainer, Loading } from "../../components/comment/style";
+import SingleComment from "../../components/comment/SingleComment";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
+import InfiniteScroll from "../../hooks/infiniteScroll";
 
 const { TextArea } = Input;
 
 const ChatPage = () => {
   const [value, valueHandler, setValue] = useInput("");
-  const [comments, setComments] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [hasNext, setHasNext] = useState(true);
   const { currentUser } = useSelector((state) => state);
+  const fetchMore = useRef(null);
+  const intersecting = InfiniteScroll(fetchMore);
 
-  const getData = useCallback(async () => {
+  useEffect(() => {
+    if (intersecting && hasNext) {
+      getData();
+    }
+  }, [intersecting]);
+
+  const getData = async () => {
+    const cursor = comments[comments.length - 1]?._id || "";
     try {
-      const res = await axios.get("/api/chat/getChat");
-      setComments(res.data);
+      const res = await axios.get(`/api/chat/getChat?cursor=${cursor}`);
+      if (!res.data.length) setHasNext(false);
+
+      setComments((prev) => [...prev, ...res.data]);
     } catch (err) {
       alert("잠시 후에 다시 시도해주세요.");
     }
-  }, []);
-
-  useEffect(() => {
-    getData();
-  }, []);
+  };
 
   const onSubmit = useCallback(
     (e) => {
@@ -61,7 +71,7 @@ const ChatPage = () => {
               createAt: res.data.createdAt,
             },
           ];
-          setComments([...comments, ...chat]);
+          setComments([...chat, ...comments]);
           setValue("");
         } catch (err) {
           alert("잠시 후에 다시 시도해주세요.");
@@ -80,19 +90,54 @@ const ChatPage = () => {
     [value]
   );
 
+  const removeComment = async (id) => {
+    let data = {
+      id,
+    };
+
+    try {
+      const res = await axios.post("/api/chat/removeChat", data);
+      if (res.data.success) {
+        toast.success("Deletion was successful", { autoClose: 2500 });
+        setComments(comments.filter((comment) => comment._id !== id));
+      }
+    } catch (err) {
+      alert("잠시 후에 다시 시도해주세요.");
+    }
+  };
+
+  if (comments === null) {
+    return <Loading>Loading...</Loading>;
+  }
+
   return (
     <ChatPageContainer>
       <br />
       <h2>You can write whatever you want !</h2>
       <hr />
-      <br />
-      <Comment comments={comments} setComments={setComments} />
       <FormBox>
         <form onKeyPress={onKeyPress}>
           <TextArea value={value} onChange={valueHandler} onSubmit={onSubmit} />
           <Button onClick={onSubmit}>Submit</Button>
         </form>
       </FormBox>
+      <br />
+      <div>
+        <CommentContainer>
+          {comments?.map((comment, index) => (
+            <div key={index}>
+              <SingleComment
+                comment={comment}
+                owner={currentUser?._id === comment.writer._id}
+                removeComment={removeComment}
+              />
+            </div>
+          ))}
+        </CommentContainer>
+      </div>
+      <div ref={fetchMore}></div>
+
+      <Footer />
       <ToastContainer />
     </ChatPageContainer>
   );

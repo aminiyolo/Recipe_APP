@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import SingleComment from "./SingleComment";
 import { CommentContainer, Loading } from "./style";
@@ -7,13 +7,15 @@ import { CommentContainer, Loading } from "./style";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Comment = ({ comments, setComments }) => {
+const Comment = ({ comments, setComments, fetchMore }) => {
   const scrollRef = useRef();
   const { currentUser } = useSelector((state) => state);
+  const [fetchRef, setFetchRef] = useState(null);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [comments]);
+    setFetchRef(fetchMore);
+  }, [comments, fetchMore]);
 
   const removeComment = async (id) => {
     let data = {
@@ -46,6 +48,8 @@ const Comment = ({ comments, setComments }) => {
           />
         </div>
       ))}
+      <div ref={fetchMore}></div>
+
       <ToastContainer />
     </CommentContainer>
   );

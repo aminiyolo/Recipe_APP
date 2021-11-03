@@ -42,7 +42,7 @@ export const DeleteButton = styled(DeleteOutlined)`
 export const CommentContainer = styled.div`
   margin-bottom: "30px";
   height: 58%;
-  overflow-y: scroll;
+  overflow-y: hidden;
 `;
 
 export const Loading = styled.div`

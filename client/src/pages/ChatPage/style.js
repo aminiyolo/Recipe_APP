@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ChatPageContainer = styled.div`
   width: 80%;
-  height: 80vh;
+  height: 90vh;
   margin: 60px auto;
   & > h2 {
     margin-left: 70px;
@@ -31,6 +31,6 @@ export const FormBox = styled.div`
 `;
 
 export const Footer = styled.div`
-  width: 100%;
-  height: 90px;
+  padding: 40px 0px;
+  height: 10px;
 `;
