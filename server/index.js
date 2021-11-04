@@ -30,6 +30,4 @@ app.use("/api/favorite", favoriteRoute);
 app.use("/api/chat", chatRoute);
 app.use("/api/auth", mailRoute);
 
-const port = 3330;
-
-app.listen(port, () => console.log(`${port} port is working`));
+app.listen(process.env.PORT || 3330, () => console.log(`port is working`));

@@ -10,6 +10,8 @@ export const ChatPageContainer = styled.div`
 
   @media screen and (max-width: 415px) {
     width: 88%;
+    height: 90vh;
+    margin-top: 100px;
   }
 `;
 
@@ -33,4 +35,8 @@ export const FormBox = styled.div`
 export const Footer = styled.div`
   padding: 40px 0px;
   height: 10px;
+
+  @media screen and (max-width: 415px) {
+    height: 50px;
+  }
 `;
