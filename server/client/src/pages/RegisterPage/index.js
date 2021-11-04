@@ -17,12 +17,12 @@ import useInput from "../../hooks/useInput";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
-
+import { axiosInstance } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUpPage = () => {
-  const { currentUser, isFetching, error } = useSelector((state) => state);
+  const { currentUser } = useSelector((state) => state);
   const history = useHistory();
 
   const [authNum, onChangeAuthNum] = useInput("");
@@ -106,7 +106,7 @@ const SignUpPage = () => {
 
       const getResult = async () => {
         try {
-          const res = await axios.post("/api/users/register", data);
+          const res = await axiosInstance.post("/api/users/register", data);
           if (res.data.success) {
             // 회원가입 성공시에 팝업창 보여주기
             alert("Congratulations, your account has been created");
@@ -143,7 +143,7 @@ const SignUpPage = () => {
       setValidatedEmail(email);
       const authNumber = async () => {
         try {
-          const res = await axios.post("/api/auth/mail", data);
+          const res = await axiosInstance.post("/api/auth/mail", data);
           if (res.data.success) {
             setAuth(res.data.authNum);
           }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import axios from "axios";
+import { axiosInstance } from "../../config";
 import { Popover } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import { Detail, Button, Loading } from "./style";
@@ -29,7 +30,7 @@ const FavoritePage = () => {
     if (currentUser) {
       const getData = async () => {
         try {
-          const res = await axios.post(
+          const res = await axiosInstance.post(
             "/api/favorite/FavoritedMeal",
             dataToSubmit
           );
@@ -68,7 +69,10 @@ const FavoritePage = () => {
       };
 
       try {
-        await axios.post("/api/favorite/removeFromFavorite", removeData);
+        await axiosInstance.post(
+          "/api/favorite/removeFromFavorite",
+          removeData
+        );
         toast.success("Deletion was successful", { autoClose: 2000 });
         setFavoriteList(
           favoriteList.filter((f) => f.mealId !== removeData.mealId)

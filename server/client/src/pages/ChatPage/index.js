@@ -1,11 +1,10 @@
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import { Button, Input } from "antd";
 import useInput from "../../hooks/useInput";
-import axios from "axios";
 import { ChatPageContainer, FormBox, Footer } from "./style";
 import { CommentContainer, Loading } from "../../components/comment/style";
 import SingleComment from "../../components/comment/SingleComment";
-
+import { axiosInstance } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -30,7 +29,7 @@ const ChatPage = () => {
   const getData = async () => {
     const cursor = comments[comments.length - 1]?._id || "";
     try {
-      const res = await axios.get(`/api/chat/getChat?cursor=${cursor}`);
+      const res = await axiosInstance.get(`/api/chat/getChat?cursor=${cursor}`);
       if (!res.data.length) setHasNext(false);
 
       setComments((prev) => [...prev, ...res.data]);
@@ -58,7 +57,7 @@ const ChatPage = () => {
 
       const getData = async () => {
         try {
-          const res = await axios.post("/api/chat/saveChat", data);
+          const res = await axiosInstance.post("/api/chat/saveChat", data);
           let chat = [
             {
               _id: res.data._id,
@@ -96,7 +95,7 @@ const ChatPage = () => {
     };
 
     try {
-      const res = await axios.post("/api/chat/removeChat", data);
+      const res = await axiosInstance.post("/api/chat/removeChat", data);
       if (res.data.success) {
         toast.success("Deletion was successful", { autoClose: 2500 });
         setComments(comments.filter((comment) => comment._id !== id));

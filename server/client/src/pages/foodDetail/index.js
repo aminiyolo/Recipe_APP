@@ -15,6 +15,7 @@ import {
 import { useHistory } from "react-router";
 import VideoPlayer from "../../components/VideoPlayer";
 import { useSelector } from "react-redux";
+import { axiosInstance } from "../../config";
 
 const FoodDetail = ({ onCloseModal, foodDetail }) => {
   const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodDetail.idMeal}`;
@@ -47,7 +48,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   let meal;
   const getData = async () => {
     try {
-      const res = await axios.get(URL);
+      const res = await axiosInstance.get(URL);
       setDatail(res.data.meals[0].strInstructions);
       setVideo(res.data.meals[0].strYoutube);
       meal = res.data.meals[0];
@@ -76,7 +77,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
     if (!favorite) {
       const addFavorite = async () => {
         try {
-          await axios.post("/api/favorite/addToFavorite", dataToSubmit);
+          await axiosInstance.post("/api/favorite/addToFavorite", dataToSubmit);
           setFavorite(true);
         } catch (err) {
           alert("Try again a few seconds later");
@@ -87,7 +88,10 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
     } else if (favorite) {
       const remove = async () => {
         try {
-          await axios.post("/api/favorite/removeFromFavorite", dataToSubmit);
+          await axiosInstance.post(
+            "/api/favorite/removeFromFavorite",
+            dataToSubmit
+          );
           setFavorite(false);
         } catch (err) {
           alert("Try again a few seconds later");
@@ -108,7 +112,10 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
     getData();
     const checkIfFavorited = async () => {
       try {
-        const res = await axios.post("/api/favorite/favorited", dataToSubmit);
+        const res = await axiosInstance.post(
+          "/api/favorite/favorited",
+          dataToSubmit
+        );
         setFavorite(res.data);
       } catch (err) {
         alert("Try again a few seconds later");

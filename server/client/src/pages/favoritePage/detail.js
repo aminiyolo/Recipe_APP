@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosInstance } from "../../config";
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router";
 import {
@@ -36,7 +37,7 @@ const Detail = () => {
 
   const getData = async () => {
     try {
-      const res = await axios.get(URL);
+      const res = await axiosInstance.get(URL);
       setInstruction(res.data.meals[0].strInstructions);
       setFoodDetail(res.data.meals[0]);
       meal = res.data.meals[0];

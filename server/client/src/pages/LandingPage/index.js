@@ -9,6 +9,7 @@ import { Row } from "antd";
 import SearchCategory from "../../components/SearchCategory";
 import FoodDetail from "../foodDetail";
 import { LandingContainer, BtnBox, formStyle, btnStyle } from "./style";
+import { axiosInstance } from "../../config";
 
 const LandingPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -25,7 +26,7 @@ const LandingPage = () => {
   const getData = async () => {
     try {
       // 선택된 재료의 레시피 가져오기
-      const res = await axios.get(BASE_URL);
+      const res = await axiosInstance.get(BASE_URL);
       if (res.data.meals) setRecipes(null);
       setRecipes(res.data.meals);
     } catch (err) {
@@ -36,7 +37,7 @@ const LandingPage = () => {
   const getAllData = async () => {
     try {
       // 모든 카테고리 목록 가져오기
-      const res = await axios.get(BASE_ALL_URL);
+      const res = await axiosInstance.get(BASE_ALL_URL);
       setCategories(res.data.categories);
     } catch (err) {
       alert("정보를 가져오지 못했습니다.");
@@ -60,7 +61,7 @@ const LandingPage = () => {
     // 특정 카테고리 목록 선택 시
     const getDataByCategory = async () => {
       try {
-        const res = await axios.get(
+        const res = await axiosInstance.get(
           `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
         );
         setRecipes(res.data.meals);

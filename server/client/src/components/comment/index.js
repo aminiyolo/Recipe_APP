@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import SingleComment from "./SingleComment";
 import { CommentContainer, Loading } from "./style";
-
+import { axiosInstance } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +23,7 @@ const Comment = ({ comments, setComments, fetchMore }) => {
     };
 
     try {
-      const res = await axios.post("/api/chat/removeChat", data);
+      const res = await axiosInstance.post("/api/chat/removeChat", data);
       if (res.data.success) {
         toast.success("Deletion was successful", { autoClose: 2500 });
         setComments(comments.filter((comment) => comment._id !== id));

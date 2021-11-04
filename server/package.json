@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "server": "supervisor index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "aminiyolo",
   "license": "ISC",
