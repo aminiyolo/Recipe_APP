@@ -18,7 +18,7 @@ router.get("/getChat", async (req, res) => {
     const chatData = await Chat.find().populate("writer");
     const fromIndex =
       chatData.reverse().findIndex((chat) => chat.id === cursor) + 1;
-    return res.status(200).json(chatData.slice(fromIndex, fromIndex + 6));
+    return res.status(200).json(chatData.slice(fromIndex, fromIndex + 10));
   } catch (err) {
     return res.status(500).json(err);
   }
