@@ -6,14 +6,15 @@
 
 ## 프로젝트 계획 이유
 
-> 평소에 요리에 흥미가 많고 특히, 외국 음식에 대한 관심이 많기 때문에 외국 음식에 대한 레시피가 간단하게 정리되있는 사이트가 있다면 좋을 것
-> 같다는 생각으로 만들게 되었습니다. 외국 음식에 대한 레시피인 만큼 사이트의 언어를 영어로 작성하였습니다.
+> ### 평소에 요리에 흥미가 많고 특히, 외국 음식에 대한 관심이 많기 때문에 외국 음식에 대한 레시피가 간단하게 정리되있는 사이트가 있다면 좋을 것
+
+> ### 같다는 생각으로 만들게 되었습니다. 외국 음식에 대한 레시피인 만큼 사이트의 언어를 영어로 작성하였습니다.
 
 ---
 
 ## 풀스택 프로젝트 (개인 프로젝트)
 
-<img src="https://i.ibb.co/S6vdsMm/image.png"  width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
+<img src="https://i.ibb.co/S6vdsMm/image.png"  width="525px" height="450px" title="홈화면" alt="홈화면"></img><br/>
 
 ### 클라이언트(React), 서버(express, mongoDB) 모두 혼자서 진행하여 완성하였습니다.
 
@@ -46,8 +47,8 @@
 3. 조리 영상 제공 (유튜브 API를 활용하여 유튜브 영상 모달에서 시청가능)
    </br>
    </br>
-   <img src="https://i.ibb.co/PN8sb15/image.png" width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
-   <img src="https://i.ibb.co/7WP6gKT/image.png" width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
+   <img src="https://i.ibb.co/PN8sb15/image.png" width="525px" height="450px" title="레시피" alt="레시피"></img><br/>
+   <img src="https://i.ibb.co/7WP6gKT/image.png" width="525px" height="450px" title="유튜브" alt="유튜브"></img><br/>
 
 ---
 
@@ -58,9 +59,9 @@
 3. 로그인 실패 시 (ID 또는 비밀번호 오류로 인한) react-toastify로 에러 보여주기
    </br>
    </br>
-   <img src="https://i.ibb.co/2gZYcpF/image.png" width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
-   <img src="https://i.ibb.co/HDTjpN9/image.png" width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
-   <img src="https://i.ibb.co/NZL5dGP/toastify.png" width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
+   <img src="https://i.ibb.co/2gZYcpF/image.png" width="525px" height="450px" title="로그인" alt="로그인"></img><br/>
+   <img src="https://i.ibb.co/HDTjpN9/image.png" width="525px" height="450px" title="이메일 인증" alt="이메일 인증"></img><br/>
+   <img src="https://i.ibb.co/NZL5dGP/toastify.png" width="525px" height="450px" title="토스트" alt="토스트"></img><br/>
 
 ---
 
@@ -71,8 +72,8 @@
 3. 즐겨찾기 세부 정보 (Recipe) 확인 가능
    </br>
    </br>
-   <img src="https://i.ibb.co/JdNwPN5/image.png" width="600px" height="450px" title="검색기능" alt="검색기능"></img><br/>
-   <img src="https://i.ibb.co/Zxp6ccc/image.png" width="600px" height="450px" title="검색기능" alt="검색기능"></img><br/>
+   <img src="https://i.ibb.co/JdNwPN5/image.png" width="600px" height="450px" title="즐겨찾기 목록" alt="즐겨찾기 목록"></img><br/>
+   <img src="https://i.ibb.co/Zxp6ccc/image.png" width="600px" height="450px" title="이미지 보여주기" alt="이미지 보여주기"></img><br/>
 
 ---
 
@@ -83,7 +84,7 @@
 
    </br>
    </br>
-   <img src="https://i.ibb.co/JvPrJGK/image.png" width="600px" height="450px" title="검색기능" alt="검색기능"></img><br/>
+   <img src="https://i.ibb.co/JvPrJGK/image.png" width="600px" height="450px" title="방명록" alt="방명록"></img><br/>
 
 ---
 
