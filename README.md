@@ -61,7 +61,7 @@
    </br>
    <img src="https://user-images.githubusercontent.com/73641636/144232791-1155c77f-651a-4381-a651-b56f5d05e906.png" width="525px" height="450px" title="로그인" alt="로그인"></img><br/>
    <img src="https://user-images.githubusercontent.com/73641636/144233472-b85317a6-58aa-4c4b-aaa0-4d40163a181a.png" width="525px" height="450px" title="이메일 인증" alt="이메일 인증"></img><br/>
-   <img src="https://user-images.githubusercontent.com/73641636/144232944-cc81bb90-1b98-42d0-b587-f5ef96719e61.png" width="550px" height="450px" title="토스트" alt="토스트"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144232944-cc81bb90-1b98-42d0-b587-f5ef96719e61.png" width="500px" height="450px" title="토스트" alt="토스트"></img><br/>
 
 ---
 
