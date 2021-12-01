@@ -14,7 +14,7 @@
 
 ## 풀스택 프로젝트 (개인 프로젝트)
 
-<img src="https://i.ibb.co/S6vdsMm/image.png"  width="525px" height="450px" title="홈화면" alt="홈화면"></img><br/>
+<img src="https://user-images.githubusercontent.com/73641636/144233370-a7c3cd76-68af-488a-97c1-004f2211526c.png"  width="525px" height="450px" title="홈화면" alt="홈화면"></img><br/>
 
 ### 클라이언트(React), 서버(express, mongoDB) 모두 혼자서 진행하여 완성하였습니다.
 
@@ -35,8 +35,8 @@
 2. 검색창을 이용하여 사용하고자 하는 재료 검색 시 재료를 이용하여 만들 수 있는 음식 목록 리스트 렌더링
    </br>
    </br>
-   <img src="https://i.ibb.co/crP9GFf/image.png" width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
-   <img src="https://i.ibb.co/7pCdrrc/image.png" width="525px" height="450px" title="목록" alt="목록"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144232321-5ff1dbac-34a2-467e-b5a8-bdb10c41eb30.png" width="525px" height="450px" title="검색기능" alt="검색기능"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144233079-41ca2c30-92e3-437e-a6ab-a93e9b82c0cf.png" width="525px" height="450px" title="목록" alt="목록"></img><br/>
 
 ---
 
@@ -47,7 +47,7 @@
 3. 조리 영상 제공 (유튜브 API를 활용하여 유튜브 영상 모달에서 시청가능)
    </br>
    </br>
-   <img src="https://i.ibb.co/PN8sb15/image.png" width="525px" height="450px" title="레시피" alt="레시피"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144232616-adde110d-4490-4382-9709-fcbddf927a16.png" width="525px" height="450px" title="레시피" alt="레시피"></img><br/>
    <img src="https://i.ibb.co/7WP6gKT/image.png" width="525px" height="450px" title="유튜브" alt="유튜브"></img><br/>
 
 ---
@@ -59,9 +59,9 @@
 3. 로그인 실패 시 (ID 또는 비밀번호 오류로 인한) react-toastify로 에러 보여주기
    </br>
    </br>
-   <img src="https://i.ibb.co/2gZYcpF/image.png" width="525px" height="450px" title="로그인" alt="로그인"></img><br/>
-   <img src="https://i.ibb.co/HDTjpN9/image.png" width="525px" height="450px" title="이메일 인증" alt="이메일 인증"></img><br/>
-   <img src="https://i.ibb.co/NZL5dGP/toastify.png" width="525px" height="450px" title="토스트" alt="토스트"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144232791-1155c77f-651a-4381-a651-b56f5d05e906.png" width="525px" height="450px" title="로그인" alt="로그인"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144233472-b85317a6-58aa-4c4b-aaa0-4d40163a181a.png" width="525px" height="450px" title="이메일 인증" alt="이메일 인증"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144232944-cc81bb90-1b98-42d0-b587-f5ef96719e61.png" width="525px" height="450px" title="토스트" alt="토스트"></img><br/>
 
 ---
 
@@ -72,8 +72,8 @@
 3. 즐겨찾기 세부 정보 (Recipe) 확인 가능
    </br>
    </br>
-   <img src="https://i.ibb.co/JdNwPN5/image.png" width="600px" height="450px" title="즐겨찾기 목록" alt="즐겨찾기 목록"></img><br/>
-   <img src="https://i.ibb.co/Zxp6ccc/image.png" width="600px" height="450px" title="이미지 보여주기" alt="이미지 보여주기"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144233687-407fcb7a-0470-4df5-9bb3-1d155c830cb3.png" width="600px" height="450px" title="즐겨찾기 목록" alt="즐겨찾기 목록"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144233568-45d27270-da57-4df1-928f-97153a26cc67.png" width="600px" height="450px" title="이미지 보여주기" alt="이미지 보여주기"></img><br/>
 
 ---
 
@@ -84,7 +84,7 @@
 
    </br>
    </br>
-   <img src="https://i.ibb.co/JvPrJGK/image.png" width="600px" height="450px" title="방명록" alt="방명록"></img><br/>
+   <img src="https://user-images.githubusercontent.com/73641636/144233256-77a11d37-94cb-4060-b2ef-0d4d1a0a2492.png" width="600px" height="450px" title="방명록" alt="방명록"></img><br/>
 
 ---
 
