@@ -46,17 +46,6 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   }, []);
 
   let meal;
-  const getData = async () => {
-    try {
-      const res = await axiosInstance.get(URL);
-      setDatail(res.data.meals[0].strInstructions);
-      setVideo(res.data.meals[0].strYoutube);
-      meal = res.data.meals[0];
-      addIngredients(meal);
-    } catch (err) {
-      alert("Failed to get a data, plz try again");
-    }
-  };
 
   const onClickVideo = useCallback(() => {
     setPlayVideo(true);
@@ -90,7 +79,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
         try {
           await axiosInstance.post(
             "/api/favorite/removeFromFavorite",
-            dataToSubmit
+            dataToSubmit,
           );
           setFavorite(false);
         } catch (err) {
@@ -109,12 +98,23 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
   };
 
   useEffect(() => {
-    getData();
+    const getData = async () => {
+      try {
+        const res = await axiosInstance.get(URL);
+        setDatail(res.data.meals[0].strInstructions);
+        setVideo(res.data.meals[0].strYoutube);
+        meal = res.data.meals[0];
+        addIngredients(meal);
+      } catch (err) {
+        alert("Failed to get a data, plz try again");
+      }
+    };
+
     const checkIfFavorited = async () => {
       try {
         const res = await axiosInstance.post(
           "/api/favorite/favorited",
-          dataToSubmit
+          dataToSubmit,
         );
         setFavorite(res.data);
       } catch (err) {
@@ -122,6 +122,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
       }
     };
 
+    getData();
     checkIfFavorited();
   }, []);
 

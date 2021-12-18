@@ -34,16 +34,6 @@ const LandingPage = () => {
     }
   };
 
-  const getAllData = async () => {
-    try {
-      // 모든 카테고리 목록 가져오기
-      const res = await axiosInstance.get(BASE_ALL_URL);
-      setCategories(res.data.categories);
-    } catch (err) {
-      alert("정보를 가져오지 못했습니다.");
-    }
-  };
-
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -54,7 +44,7 @@ const LandingPage = () => {
       setToggle(true);
       setQuery("");
     },
-    [query]
+    [query],
   );
 
   const onClickCategory = useCallback((category) => {
@@ -62,7 +52,7 @@ const LandingPage = () => {
     const getDataByCategory = async () => {
       try {
         const res = await axiosInstance.get(
-          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
         );
         setRecipes(res.data.meals);
         setSearchValue(category);
@@ -94,8 +84,17 @@ const LandingPage = () => {
 
   useEffect(() => {
     const source = axios.CancelToken.source();
-    getAllData();
+    const getAllData = async () => {
+      try {
+        // 모든 카테고리 목록 가져오기
+        const res = await axiosInstance.get(BASE_ALL_URL);
+        setCategories(res.data.categories);
+      } catch (err) {
+        alert("정보를 가져오지 못했습니다.");
+      }
+    };
 
+    getAllData();
     return () => {
       source.cancel();
     };

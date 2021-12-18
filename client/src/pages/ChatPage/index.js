@@ -21,22 +21,24 @@ const ChatPage = () => {
   const intersecting = InfiniteScroll(fetchMore);
 
   useEffect(() => {
+    const getData = async () => {
+      const cursor = comments[comments.length - 1]?._id || "";
+      try {
+        const res = await axiosInstance.get(
+          `/api/chat/getChat?cursor=${cursor}`,
+        );
+        if (!res.data.length) setHasNext(false);
+
+        setComments((prev) => [...prev, ...res.data]);
+      } catch (err) {
+        alert("잠시 후에 다시 시도해주세요.");
+      }
+    };
+
     if (intersecting && hasNext) {
       getData();
     }
   }, [intersecting]);
-
-  const getData = async () => {
-    const cursor = comments[comments.length - 1]?._id || "";
-    try {
-      const res = await axiosInstance.get(`/api/chat/getChat?cursor=${cursor}`);
-      if (!res.data.length) setHasNext(false);
-
-      setComments((prev) => [...prev, ...res.data]);
-    } catch (err) {
-      alert("잠시 후에 다시 시도해주세요.");
-    }
-  };
 
   const onSubmit = useCallback(
     (e) => {
@@ -79,14 +81,14 @@ const ChatPage = () => {
 
       getData();
     },
-    [value]
+    [value],
   );
 
   const onKeyPress = useCallback(
     (e) => {
       if (e.key === "Enter") onSubmit(e);
     },
-    [value]
+    [value],
   );
 
   const removeComment = async (id) => {
