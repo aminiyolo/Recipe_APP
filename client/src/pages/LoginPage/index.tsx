@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Form,
@@ -16,13 +16,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSet } from "../../redux/userRedux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RootState } from "../../redux/store";
 
 const LoginPage = () => {
   const history = useHistory();
   const [ID, onChangeID] = useInput("");
   const [password, onChangePassword] = useInput("");
-  const [emptyCheck, setEmptyCheck] = useState(false);
-  const { currentUser, isFetching, error } = useSelector((state) => state);
+  const [emptyCheck, setEmptyCheck] = useState<boolean>(false);
+  const { currentUser, isFetching, error } = useSelector(
+    (state: RootState) => state,
+  );
   const dispatch = useDispatch();
 
   const onSubmit = useCallback(
@@ -42,7 +45,7 @@ const LoginPage = () => {
 
       login(dispatch, data);
     },
-    [ID, password, history]
+    [ID, password, history],
   );
 
   currentUser && history.push("/");

@@ -1,23 +1,25 @@
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { Button, Input } from "antd";
 import useInput from "../../hooks/useInput";
 import { ChatPageContainer, FormBox, Footer } from "./style";
 import { CommentContainer, Loading } from "../../components/comment/style";
-import SingleComment from "../../components/comment/SingleComment";
+import SingleComment from "../../components/comment";
 import { axiosInstance } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import InfiniteScroll from "../../hooks/infiniteScroll";
+import { RootState } from "../../redux/store";
+import { CommentType as Comment } from "../../components/comment";
 
 const { TextArea } = Input;
 
 const ChatPage = () => {
   const [value, valueHandler, setValue] = useInput("");
-  const [comments, setComments] = useState([]);
-  const [hasNext, setHasNext] = useState(true);
-  const { currentUser } = useSelector((state) => state);
-  const fetchMore = useRef(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [hasNext, setHasNext] = useState<boolean>(true);
+  const { currentUser } = useSelector((state: RootState) => state);
+  const fetchMore = useRef<HTMLDivElement>(null);
   const intersecting = InfiniteScroll(fetchMore);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ const ChatPage = () => {
     [value],
   );
 
-  const removeComment = async (id) => {
+  const removeComment = async (id: string) => {
     let data = {
       id,
     };

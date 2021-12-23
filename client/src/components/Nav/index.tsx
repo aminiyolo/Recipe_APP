@@ -3,14 +3,15 @@ import { Navbar, LeftMenu } from "./style";
 import { RightMenuContainer, Wrapper, Logout } from "./style";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/apiCalls";
+import { RootState } from "../../redux/store";
 
 const Nav = () => {
-  const { currentUser } = useSelector((state) => state);
+  const { currentUser } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
     const value = window.confirm("Are you sure you want to log out ?");
-    value && logout(dispatch, currentUser.token);
+    currentUser && value && logout(dispatch, currentUser.token);
   };
 
   return (

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./index.css";
-import axios from "axios";
 import { axiosInstance } from "../../config";
 import { Popover } from "antd";
 import { Link, useHistory } from "react-router-dom";
@@ -9,14 +7,21 @@ import { useSelector } from "react-redux";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RootState } from "../../redux/store";
+
+interface IMeal {
+  mealId: string;
+  mealTitle: string;
+  mealImage: string;
+}
 
 const FavoritePage = () => {
-  const [favoriteList, setFavoriteList] = useState(null);
-  const { currentUser } = useSelector((state) => state);
+  const [favoriteList, setFavoriteList] = useState<IMeal[] | null>(null);
+  const { currentUser } = useSelector((state: RootState) => state);
   const history = useHistory();
 
-  let userFrom;
-  let dataToSubmit;
+  let userFrom: string | undefined;
+  let dataToSubmit: {};
 
   if (currentUser) {
     userFrom = currentUser._id;
@@ -32,7 +37,7 @@ const FavoritePage = () => {
         try {
           const res = await axiosInstance.post(
             "/api/favorite/FavoritedMeal",
-            dataToSubmit
+            dataToSubmit,
           );
           setFavoriteList(res.data);
         } catch (err) {
@@ -47,7 +52,7 @@ const FavoritePage = () => {
     }
   }, []);
 
-  const RenderList = favoriteList?.map((favoriteMeal, index) => {
+  const RenderList = favoriteList?.map((favoriteMeal, index: number) => {
     const content = (
       <div>
         {favoriteMeal.mealImage ? (
@@ -71,11 +76,11 @@ const FavoritePage = () => {
       try {
         await axiosInstance.post(
           "/api/favorite/removeFromFavorite",
-          removeData
+          removeData,
         );
         toast.success("Deletion was successful", { autoClose: 2000 });
         setFavoriteList(
-          favoriteList.filter((f) => f.mealId !== removeData.mealId)
+          favoriteList.filter((f) => f.mealId !== removeData.mealId),
         );
       } catch (err) {
         alert("Please try again");

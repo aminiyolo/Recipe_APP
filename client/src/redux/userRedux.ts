@@ -1,12 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type User = {
+  token: string;
+  ID: string;
+  _id: string;
+  image: string;
+  name: string;
+};
+
+interface IState {
+  currentUser: User | null;
+  isFetching: boolean;
+  error: boolean;
+}
+
+const initialState: IState = {
+  currentUser: null,
+  isFetching: false,
+  error: false,
+};
+
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    currentUser: null,
-    isFetching: false,
-    error: false,
-  },
+  initialState,
   reducers: {
     loginStart: (state) => {
       state.isFetching = true;

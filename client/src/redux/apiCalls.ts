@@ -5,8 +5,14 @@ import {
   logoutSuccess,
 } from "./userRedux";
 import { axiosInstance } from "../config";
+import { Dispatch } from "redux";
 
-export const login = async (dispatch, user) => {
+interface IUser {
+  ID: string;
+  password: string;
+}
+
+export const login = async (dispatch: Dispatch, user: IUser) => {
   dispatch(loginStart());
   try {
     const res = await axiosInstance.post("/api/users/login", user);
@@ -16,7 +22,7 @@ export const login = async (dispatch, user) => {
   }
 };
 
-export const logout = async (dispatch, token) => {
+export const logout = async (dispatch: Dispatch, token: string) => {
   try {
     await axiosInstance.get("/api/users/logout", {
       headers: {

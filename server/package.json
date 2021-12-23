@@ -23,5 +23,7 @@
     "mongoose": "^5.13.13",
     "nodemailer": "^6.7.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "cors": "^2.8.5"
+  }
 }

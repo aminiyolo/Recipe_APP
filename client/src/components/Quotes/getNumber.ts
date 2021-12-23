@@ -1,5 +1,5 @@
 const getNumber = () => {
-  const number = Math.floor(Math.random() * 5);
+  const number: number = Math.floor(Math.random() * 5);
   return number;
 };
 

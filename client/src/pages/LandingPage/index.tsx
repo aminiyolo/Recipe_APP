@@ -10,20 +10,21 @@ import SearchCategory from "../../components/SearchCategory";
 import FoodDetail from "../foodDetail";
 import { LandingContainer, BtnBox, formStyle, btnStyle } from "./style";
 import { axiosInstance } from "../../config";
+import { DetailType as Detail } from "../foodDetail";
 
 const LandingPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [query, changeHandler, setQuery] = useInput("");
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<[] | null>([]);
   const [categories, setCategories] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [foodDetail, setFoodDetail] = useState([]);
+  const [foodDetail, setFoodDetail] = useState<Detail | null>(null);
 
   const BASE_URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${query}`;
   const BASE_ALL_URL = "https://www.themealdb.com/api/json/v1/1/categories.php";
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       // 선택된 재료의 레시피 가져오기
       const res = await axiosInstance.get(BASE_URL);
@@ -32,7 +33,17 @@ const LandingPage = () => {
     } catch (err) {
       alert("정보를 가져오지 못했습니다.");
     }
-  };
+  }, [query]);
+
+  const getAllData = useCallback(async () => {
+    try {
+      // 모든 카테고리 목록 가져오기
+      const res = await axiosInstance.get(BASE_ALL_URL);
+      setCategories(res.data.categories);
+    } catch (err) {
+      alert("정보를 가져오지 못했습니다.");
+    }
+  }, []);
 
   const onSubmit = useCallback(
     (e) => {
@@ -84,16 +95,6 @@ const LandingPage = () => {
 
   useEffect(() => {
     const source = axios.CancelToken.source();
-    const getAllData = async () => {
-      try {
-        // 모든 카테고리 목록 가져오기
-        const res = await axiosInstance.get(BASE_ALL_URL);
-        setCategories(res.data.categories);
-      } catch (err) {
-        alert("정보를 가져오지 못했습니다.");
-      }
-    };
-
     getAllData();
     return () => {
       source.cancel();
@@ -108,12 +109,7 @@ const LandingPage = () => {
           <Quote />
         </div>
         <div className="formBox">
-          <Form
-            type="submit"
-            onSubmit={onSubmit}
-            autoComplete="off"
-            style={formStyle}
-          >
+          <Form onSubmit={onSubmit} autoComplete="off" style={formStyle}>
             <Input
               className="input"
               type="text"
@@ -148,7 +144,7 @@ const LandingPage = () => {
         {/*  모든 카테고리 목록 렌더링 */}
         <Row gutter={[24, 32]}>
           {!toggle &&
-            categories !== [] &&
+            categories.length &&
             categories.map((category, index) => (
               <React.Fragment key={index}>
                 <SearchCategory
@@ -160,12 +156,8 @@ const LandingPage = () => {
         </Row>
       </div>
       {/* 레시피 모달 창 렌더링 */}
-      {showModal && (
-        <FoodDetail
-          show={showModal}
-          onCloseModal={onCloseModal}
-          foodDetail={foodDetail}
-        />
+      {showModal && foodDetail && (
+        <FoodDetail onCloseModal={onCloseModal} foodDetail={foodDetail} />
       )}
     </LandingContainer>
   );

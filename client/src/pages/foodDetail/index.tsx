@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import {
   CreateModal,
@@ -16,15 +15,27 @@ import { useHistory } from "react-router";
 import VideoPlayer from "../../components/VideoPlayer";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../../config";
+import { RootState } from "../../redux/store";
 
-const FoodDetail = ({ onCloseModal, foodDetail }) => {
+export type DetailType = {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
+};
+
+interface IProps {
+  onCloseModal: () => void;
+  foodDetail: DetailType;
+}
+
+const FoodDetail: React.VFC<IProps> = ({ onCloseModal, foodDetail }) => {
   const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodDetail.idMeal}`;
   const history = useHistory();
-  const { currentUser } = useSelector((state) => state);
+  const { currentUser } = useSelector((state: RootState) => state);
   const [detail, setDatail] = useState(null);
-  const [video, setVideo] = useState(null);
+  const [video, setVideo] = useState<string | null>(null);
   const [favorite, setFavorite] = useState(false);
-  const [ingredients, setIngredients] = useState(null);
+  const [ingredients, setIngredients] = useState<string[] | null>(null);
   const [playVideo, setPlayVideo] = useState(false);
 
   const stopPropagation = useCallback((e) => {
@@ -69,6 +80,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
           await axiosInstance.post("/api/favorite/addToFavorite", dataToSubmit);
           setFavorite(true);
         } catch (err) {
+          console.log(err);
           alert("Try again a few seconds later");
         }
       };
@@ -132,7 +144,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
         {playVideo && ( // when a video button clicked
           <VideoPlayer
             onCloseVideo={onCloseVideo}
-            url={video.slice(video.indexOf("=") + 1)}
+            url={video?.slice(video.indexOf("=") + 1)}
           />
         )}
         {!playVideo && (
@@ -141,7 +153,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
               <span>&times;</span>
             </CloseModalButton>
             <div className="detailBox">
-              {foodDetail !== [] && (
+              {
                 <div>
                   <h1 className="foodName">{foodDetail.strMeal}</h1>
                   <ButtonContainer>
@@ -169,7 +181,7 @@ const FoodDetail = ({ onCloseModal, foodDetail }) => {
                   <IngredientsP>Instructions:</IngredientsP>
                   {detail && <Detail>{detail}</Detail>}
                 </div>
-              )}
+              }
             </div>
           </div>
         )}

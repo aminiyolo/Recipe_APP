@@ -4,7 +4,7 @@ import getNumber from "./getNumber";
 const Quote = () => {
   const number = getNumber();
 
-  const quotes = [
+  const quotes: any = [
     [
       "A crust eaten in peace is better than a banquet partaken in anxiety",
       "Aesop",

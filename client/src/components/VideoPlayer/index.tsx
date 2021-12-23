@@ -1,7 +1,12 @@
 import { useCallback } from "react";
 import { CloseModalButton } from "../../pages/foodDetail/style";
 
-const VideoPlayer = ({ onCloseVideo, url }) => {
+interface IProps {
+  onCloseVideo: () => void;
+  url: string | undefined;
+}
+
+const VideoPlayer: React.VFC<IProps> = ({ onCloseVideo, url }) => {
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
   }, []);

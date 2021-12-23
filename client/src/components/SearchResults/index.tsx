@@ -2,7 +2,17 @@ import { Col } from "antd";
 import { CategoryBox, Image } from "../SearchCategory/style";
 import { ImageP } from "./style";
 
-const SearchResults = ({ recipe, onOpenModal }) => {
+type Recipe = {
+  strMealThumb: string;
+  strMeal: string;
+};
+
+interface IProps {
+  recipe: Recipe;
+  onOpenModal: (recipe: Recipe) => void;
+}
+
+const SearchResults: React.VFC<IProps> = ({ recipe, onOpenModal }) => {
   return (
     <Col
       lg={8}

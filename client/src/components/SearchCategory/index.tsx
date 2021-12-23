@@ -1,8 +1,16 @@
 import { Col } from "antd";
 import { CategoryBox, Image, ImageP, colStyle } from "./style";
 
-const SearchCategory = ({ category, onClickCategory }) => {
-  const onClick = (value) => {
+interface IProps {
+  category: {
+    strCategory: string;
+    strCategoryThumb: string;
+  };
+  onClickCategory: (category: string) => void;
+}
+
+const SearchCategory: React.VFC<IProps> = ({ category, onClickCategory }) => {
+  const onClick = (value: string) => {
     onClickCategory(value);
   };
 

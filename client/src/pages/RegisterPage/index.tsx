@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { Success, Loading } from "../LoginPage/style";
+import { useCallback, useState } from "react";
+import { Success } from "../LoginPage/style";
 import {
   AuthButton,
   Container,
@@ -14,20 +14,20 @@ import {
 } from "./style";
 import { Link, useHistory } from "react-router-dom";
 import useInput from "../../hooks/useInput";
-import axios from "axios";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RootState } from "../../redux/store";
 
 const SignUpPage = () => {
-  const { currentUser } = useSelector((state) => state);
+  const { currentUser } = useSelector((state: RootState) => state);
   const history = useHistory();
 
   const [authNum, onChangeAuthNum] = useInput("");
   const [auth, setAuth] = useState(getNum());
-  const [authCheck, setAuthCheck] = useState(false);
+  const [authCheck, setAuthCheck] = useState<boolean>(false);
   const [sendMail, setSendMail] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nickNameCheck, setNickNameCheck] = useState(false);
@@ -43,7 +43,6 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [mismatchError, setMismatchError] = useState(false);
-  const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   function getNum() {
     return Math.random();
@@ -54,7 +53,7 @@ const SignUpPage = () => {
       setPassword(e.target.value);
       setMismatchError(e.target.value !== passwordCheck);
     },
-    [passwordCheck]
+    [passwordCheck],
   );
 
   const onChangePasswordCheck = useCallback(
@@ -62,10 +61,13 @@ const SignUpPage = () => {
       setPasswordCheck(e.target.value);
       setMismatchError(e.target.value !== password);
     },
-    [password]
+    [password],
   );
 
-  function ValidationCheck(state, setState) {
+  function ValidationCheck(
+    state: string,
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+  ) {
     if (!state.trim()) {
       setState(true);
       return;
@@ -74,33 +76,32 @@ const SignUpPage = () => {
     }
   }
 
-  function checkIfShort(state, setState) {
+  function checkIfShort(
+    state: string,
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+  ) {
     if (state.length >= 0 && state.length < 6) setState(() => true);
     else setState(() => false);
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = useCallback((e: any) => {
     e.preventDefault();
 
     ValidationCheck(nickname, setNickNameCheck);
     ValidationCheck(password, setEmptyPassword);
     ValidationCheck(ID, setEmptyID);
-
     checkIfShort(ID, setShortID);
     checkIfShort(password, setShortPassword);
 
     if (!passwordCheck.trim() || !authCheck) return;
-
     if (!mismatchError && ID.length >= 6 && password.length >= 6) {
-      setSignUpSuccess(false);
-
       let data = {
         email: validatedEmail,
         ID,
         name: nickname,
         password,
         image: `http://gravatar.com/avatar/${dayjs(
-          new Date()
+          new Date(),
         ).unix()}?d=identicon`,
       };
 
@@ -122,7 +123,7 @@ const SignUpPage = () => {
 
       getResult();
     }
-  };
+  }, []);
 
   const getAuthNum = useCallback(
     (e) => {
@@ -153,7 +154,7 @@ const SignUpPage = () => {
       };
       authNumber();
     },
-    [email, setAuth]
+    [email, setAuth],
   );
 
   const onClickCheckAuthNum = useCallback(
@@ -167,7 +168,7 @@ const SignUpPage = () => {
         toast.error("Authentication Number is incorrect");
       }
     },
-    [auth, authNum]
+    [auth, authNum],
   );
 
   currentUser && history.push("/");
@@ -217,7 +218,6 @@ const SignUpPage = () => {
                 name="ID"
                 value={ID}
                 onChange={onChangeID}
-                maxLength="13"
               />
             </div>
           </Label>
@@ -230,7 +230,6 @@ const SignUpPage = () => {
                 name="nickname"
                 value={nickname}
                 onChange={onChangeNickname}
-                maxLength="13"
               />
             </div>
           </Label>
@@ -243,7 +242,6 @@ const SignUpPage = () => {
                 name="password"
                 value={password}
                 onChange={onChangePassword}
-                maxLength="16"
               />
             </div>
           </Label>
@@ -256,7 +254,6 @@ const SignUpPage = () => {
                 name="password-check"
                 value={passwordCheck}
                 onChange={onChangePasswordCheck}
-                maxLength="16"
               />
             </div>
             {mismatchError && <Error>비밀번호가 일치하지 않습니다.</Error>}

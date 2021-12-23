@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstance } from "../../config";
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
@@ -12,12 +11,17 @@ import {
   InstructionP,
 } from "./style";
 
+interface IDetail {
+  strMeal: string;
+  strMealThumb: string;
+}
+
 const Detail = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-  const [foodDetail, setFoodDetail] = useState(null);
-  const [instruction, setInstruction] = useState(null);
-  const [ingredients, setIngredients] = useState(null);
+  const [foodDetail, setFoodDetail] = useState<IDetail | null>(null);
+  const [instruction, setInstruction] = useState<string | null>(null);
+  const [ingredients, setIngredients] = useState<string[] | null>(null);
 
   let meal;
 
