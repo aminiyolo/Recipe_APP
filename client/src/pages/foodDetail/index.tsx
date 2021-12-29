@@ -49,65 +49,58 @@ const FoodDetail: React.VFC<IProps> = ({ onCloseModal, foodDetail }) => {
         ingredientsContainer.push(`
         ${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}
         `);
-      } else {
-        break;
-      }
+      } else break;
     }
+
     setIngredients(ingredientsContainer);
   }, []);
-
-  let meal;
 
   const onClickVideo = useCallback(() => {
     setPlayVideo(true);
   }, [video]);
 
-  const onCloseVideo = () => {
+  const onCloseVideo = useCallback(() => {
     setPlayVideo(false);
-  };
+  }, []);
+
+  const setData = useCallback(
+    () => ({
+      mealId: foodDetail.idMeal,
+      mealTitle: foodDetail.strMeal,
+      userFrom: currentUser?._id,
+      mealImage: foodDetail.strMealThumb,
+    }),
+    [],
+  );
 
   const favoriteHandler = useCallback(() => {
     if (!currentUser) {
       // 비로그인 유저일 시
-      let value = window.confirm("You need to login. Would you like to login?");
-      if (value) history.push("/login");
+      const res = window.confirm("You need to login. Would you like to login?");
+      res && history.push("/login");
       return;
     }
 
-    if (!favorite) {
-      const addFavorite = async () => {
-        try {
-          await axiosInstance.post("/api/favorite/addToFavorite", dataToSubmit);
-          setFavorite(true);
-        } catch (err) {
-          console.log(err);
-          alert("Try again a few seconds later");
-        }
-      };
+    const addFavorite = async () => {
+      try {
+        await axiosInstance.post("/api/favorite/addToFavorite", setData());
+        setFavorite(true);
+      } catch (err) {
+        alert("Try again a few seconds later");
+      }
+    };
 
-      addFavorite();
-    } else if (favorite) {
-      const remove = async () => {
-        try {
-          await axiosInstance.post(
-            "/api/favorite/removeFromFavorite",
-            dataToSubmit,
-          );
-          setFavorite(false);
-        } catch (err) {
-          alert("Try again a few seconds later");
-        }
-      };
-      remove();
-    }
+    const remove = async () => {
+      try {
+        await axiosInstance.post("/api/favorite/removeFromFavorite", setData());
+        setFavorite(false);
+      } catch (err) {
+        alert("Try again a few seconds later");
+      }
+    };
+
+    favorite ? remove() : addFavorite();
   }, [favorite]);
-
-  let dataToSubmit = {
-    mealId: foodDetail.idMeal,
-    mealTitle: foodDetail.strMeal,
-    userFrom: currentUser?._id,
-    mealImage: foodDetail.strMealThumb,
-  };
 
   useEffect(() => {
     const getData = async () => {
@@ -115,8 +108,7 @@ const FoodDetail: React.VFC<IProps> = ({ onCloseModal, foodDetail }) => {
         const res = await axiosInstance.get(URL);
         setDatail(res.data.meals[0].strInstructions);
         setVideo(res.data.meals[0].strYoutube);
-        meal = res.data.meals[0];
-        addIngredients(meal);
+        addIngredients(res.data.meals[0]);
       } catch (err) {
         alert("Failed to get a data, plz try again");
       }
@@ -126,7 +118,7 @@ const FoodDetail: React.VFC<IProps> = ({ onCloseModal, foodDetail }) => {
       try {
         const res = await axiosInstance.post(
           "/api/favorite/favorited",
-          dataToSubmit,
+          setData(),
         );
         setFavorite(res.data);
       } catch (err) {
@@ -188,7 +180,7 @@ const FoodDetail: React.VFC<IProps> = ({ onCloseModal, foodDetail }) => {
       </CreateModal>
     );
   } else {
-    return <div></div>;
+    return <div />;
   }
 };
 export default FoodDetail;

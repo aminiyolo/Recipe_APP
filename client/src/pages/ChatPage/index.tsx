@@ -8,7 +8,7 @@ import { axiosInstance } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
-import InfiniteScroll from "../../hooks/infiniteScroll";
+import InfiniteScroll from "../../hooks/useInfiniteScroll";
 import { RootState } from "../../redux/store";
 import { CommentType as Comment } from "../../components/comment";
 
@@ -29,8 +29,8 @@ const ChatPage = () => {
         const res = await axiosInstance.get(
           `/api/chat/getChat?cursor=${cursor}`,
         );
-        if (!res.data.length) setHasNext(false);
 
+        !res.data.length && setHasNext(false);
         setComments((prev) => [...prev, ...res.data]);
       } catch (err) {
         alert("잠시 후에 다시 시도해주세요.");
@@ -48,13 +48,11 @@ const ChatPage = () => {
       if (!currentUser) {
         // 로그인 유저가 아닐 시
         setValue("");
-        toast.error("You need to login", { autoClose: 2500 });
-        return;
+        return toast.error("You need to login", { autoClose: 2500 });
       }
 
       if (!value.trim()) return;
-
-      let data = {
+      const data = {
         writer: currentUser._id,
         content: value,
       };
@@ -62,7 +60,7 @@ const ChatPage = () => {
       const getData = async () => {
         try {
           const res = await axiosInstance.post("/api/chat/saveChat", data);
-          let chat = [
+          const chat = [
             {
               _id: res.data._id,
               writer: {
@@ -94,12 +92,8 @@ const ChatPage = () => {
   );
 
   const removeComment = async (id: string) => {
-    let data = {
-      id,
-    };
-
     try {
-      const res = await axiosInstance.post("/api/chat/removeChat", data);
+      const res = await axiosInstance.post("/api/chat/removeChat", { id });
       if (res.data.success) {
         toast.success("Deletion was successful", { autoClose: 2500 });
         setComments(comments.filter((comment) => comment._id !== id));

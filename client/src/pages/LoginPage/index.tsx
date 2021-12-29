@@ -31,31 +31,19 @@ const LoginPage = () => {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-
-      if (!ID.trim() || !password.trim()) {
-        return setEmptyCheck(true);
-      }
-
+      if (!ID.trim() || !password.trim()) return setEmptyCheck(true);
       setEmptyCheck(false);
-
-      let data = {
-        ID,
-        password,
-      };
-
-      login(dispatch, data);
+      login(dispatch, { ID, password });
     },
     [ID, password, history],
   );
 
-  currentUser && history.push("/");
-
   useEffect(() => {
     dispatch(loginSet());
     error && toast.error("Check your ID and Password", { autoClose: 2500 });
-
-    return () => {};
   }, [error]);
+
+  currentUser && history.push("/");
 
   return (
     <Container>

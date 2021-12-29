@@ -28,7 +28,6 @@ const LandingPage = () => {
     try {
       // 선택된 재료의 레시피 가져오기
       const res = await axiosInstance.get(BASE_URL);
-      if (res.data.meals) setRecipes(null);
       setRecipes(res.data.meals);
     } catch (err) {
       alert("정보를 가져오지 못했습니다.");
@@ -96,6 +95,7 @@ const LandingPage = () => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     getAllData();
+
     return () => {
       source.cancel();
     };
@@ -133,8 +133,7 @@ const LandingPage = () => {
         {/* 재료로 만들 수 있는 요리 목록 렌더링 */}
         <Row gutter={[32, 32]}>
           {recipes !== [] &&
-            Array.isArray(recipes) &&
-            recipes.map((recipe, index) => (
+            recipes?.map((recipe, index) => (
               <React.Fragment key={index}>
                 <SearchResults recipe={recipe} onOpenModal={onOpenModal} />
               </React.Fragment>
@@ -144,7 +143,7 @@ const LandingPage = () => {
         {/*  모든 카테고리 목록 렌더링 */}
         <Row gutter={[24, 32]}>
           {!toggle &&
-            categories.length &&
+            categories !== [] &&
             categories.map((category, index) => (
               <React.Fragment key={index}>
                 <SearchCategory

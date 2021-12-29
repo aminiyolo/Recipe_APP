@@ -1,18 +1,19 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar, LeftMenu } from "./style";
 import { RightMenuContainer, Wrapper, Logout } from "./style";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/apiCalls";
 import { RootState } from "../../redux/store";
+import { useCallback } from "react";
 
 const Nav = () => {
   const { currentUser } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
 
-  const logoutHandler = () => {
-    const value = window.confirm("Are you sure you want to log out ?");
-    currentUser && value && logout(dispatch, currentUser.token);
-  };
+  const logoutHandler = useCallback(() => {
+    const res = window.confirm("Are you sure you want to log out ?");
+    res && logout(dispatch, currentUser!.token);
+  }, []);
 
   return (
     <>

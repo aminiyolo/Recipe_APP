@@ -25,9 +25,8 @@ const SignUpPage = () => {
   const { currentUser } = useSelector((state: RootState) => state);
   const history = useHistory();
 
-  const [authNum, onChangeAuthNum] = useInput("");
   const [auth, setAuth] = useState(getNum());
-  const [authCheck, setAuthCheck] = useState<boolean>(false);
+  const [authCheck, setAuthCheck] = useState(false);
   const [sendMail, setSendMail] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nickNameCheck, setNickNameCheck] = useState(false);
@@ -38,6 +37,7 @@ const SignUpPage = () => {
 
   const [email, onChangeEmail] = useInput("");
   const [validatedEmail, setValidatedEmail] = useState("");
+  const [authNum, onChangeAuthNum] = useInput("");
   const [nickname, onChangeNickname] = useInput("");
   const [ID, onChangeID] = useInput("");
   const [password, setPassword] = useState("");
@@ -64,38 +64,36 @@ const SignUpPage = () => {
     [password],
   );
 
-  function ValidationCheck(
+  const ValidationCheck = (
     state: string,
     setState: React.Dispatch<React.SetStateAction<boolean>>,
-  ) {
-    if (!state.trim()) {
-      setState(true);
-      return;
-    } else {
-      setState(false);
-    }
-  }
+  ) => {
+    if (!state.trim()) return setState(true);
+    else setState(false);
+  };
 
-  function checkIfShort(
+  const checkIfShort = (
     state: string,
     setState: React.Dispatch<React.SetStateAction<boolean>>,
-  ) {
-    if (state.length >= 0 && state.length < 6) setState(() => true);
-    else setState(() => false);
-  }
+  ) => {
+    state.length >= 0 && state.length < 6
+      ? setState(() => true)
+      : setState(() => false);
+  };
 
   const onSubmit = useCallback((e: any) => {
     e.preventDefault();
+    if (!authCheck) return;
 
     ValidationCheck(nickname, setNickNameCheck);
     ValidationCheck(password, setEmptyPassword);
+    ValidationCheck(passwordCheck, setEmptyPassword);
     ValidationCheck(ID, setEmptyID);
     checkIfShort(ID, setShortID);
     checkIfShort(password, setShortPassword);
 
-    if (!passwordCheck.trim() || !authCheck) return;
-    if (!mismatchError && ID.length >= 6 && password.length >= 6) {
-      let data = {
+    if (!mismatchError) {
+      const data = {
         email: validatedEmail,
         ID,
         name: nickname,
@@ -128,28 +126,18 @@ const SignUpPage = () => {
   const getAuthNum = useCallback(
     (e) => {
       e.preventDefault();
+      if (!email.trim()) return setEmailError(true);
 
-      if (!email.trim()) {
-        setEmailError(true);
-        return;
-      }
       setEmailError(false);
-
-      let data = {
-        email,
-      };
-
       setSendMail(true);
-      // 인증번호를 받고 이메일 주소를 지우거나 다른 것으로 기입할 경우에 대비하여 인증번호를 발송한 이메일 주소를 state에 저장
-      setValidatedEmail(email);
+      setValidatedEmail(email); // 인증번호를 받고 이메일 주소를 지우거나 다른 것으로 기입할 경우에 대비하여 인증번호를 발송한 이메일 주소를 state에 저장
+
       const authNumber = async () => {
         try {
-          const res = await axiosInstance.post("/api/auth/mail", data);
-          if (res.data.success) {
-            setAuth(res.data.authNum);
-          }
+          const res = await axiosInstance.post("/api/auth/mail", { email });
+          res.data.success && setAuth(res.data.authNum);
         } catch (err) {
-          console.log(err);
+          alert("잠시 후에 다시 시도해주세요.");
         }
       };
       authNumber();
@@ -160,13 +148,8 @@ const SignUpPage = () => {
   const onClickCheckAuthNum = useCallback(
     (e) => {
       e.preventDefault();
-      if (auth === authNum) {
-        setAuthCheck(true);
-      } else {
-        setAuthCheck(false);
-        // 인증번호 불일치시 팝업창으로 보여주기
-        toast.error("Authentication Number is incorrect");
-      }
+      auth === authNum ? setAuthCheck(true) : setAuthCheck(false),
+        toast.error("Authentication Number is incorrect"); // 인증번호 불일치시 팝업창으로 보여주기
     },
     [auth, authNum],
   );
@@ -268,9 +251,6 @@ const SignUpPage = () => {
             {!password && emptyPassword && (
               <Error>비밀번호를 입력해주세요.</Error>
             )}
-            {/* {signUpSuccess && (
-              <Success>회원가입되었습니다! 로그인해주세요.</Success>
-            )} */}
           </Label>
           <Button onClick={onSubmit}>회원가입</Button>
         </Form>

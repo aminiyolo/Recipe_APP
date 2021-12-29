@@ -23,8 +23,6 @@ const Detail = () => {
   const [instruction, setInstruction] = useState<string | null>(null);
   const [ingredients, setIngredients] = useState<string[] | null>(null);
 
-  let meal;
-
   const addIngredients = useCallback((meal) => {
     const ingredientsContainer = [];
     for (let i = 1; i < 21; i++) {
@@ -32,10 +30,9 @@ const Detail = () => {
         ingredientsContainer.push(`
         ${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}
         `);
-      } else {
-        break;
-      }
+      } else break;
     }
+
     setIngredients(ingredientsContainer);
   }, []);
 
@@ -44,8 +41,7 @@ const Detail = () => {
       const res = await axiosInstance.get(URL);
       setInstruction(res.data.meals[0].strInstructions);
       setFoodDetail(res.data.meals[0]);
-      meal = res.data.meals[0];
-      addIngredients(meal);
+      addIngredients(res.data.meals[0]);
     } catch (err) {
       alert("정보를 가져오지 못했습니다.");
     }

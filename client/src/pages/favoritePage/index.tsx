@@ -20,25 +20,14 @@ const FavoritePage = () => {
   const { currentUser } = useSelector((state: RootState) => state);
   const history = useHistory();
 
-  let userFrom: string | undefined;
-  let dataToSubmit: {};
-
-  if (currentUser) {
-    userFrom = currentUser._id;
-  }
-
-  dataToSubmit = {
-    userFrom,
-  };
-
   useEffect(() => {
     if (currentUser) {
       const getData = async () => {
+        const userFrom = currentUser?._id;
         try {
-          const res = await axiosInstance.post(
-            "/api/favorite/FavoritedMeal",
-            dataToSubmit,
-          );
+          const res = await axiosInstance.post("/api/favorite/FavoritedMeal", {
+            userFrom,
+          });
           setFavoriteList(res.data);
         } catch (err) {
           alert("잠시 후에 다시 시도해주세요.");
@@ -68,8 +57,8 @@ const FavoritePage = () => {
     );
 
     const onRemove = async () => {
-      let removeData = {
-        userFrom,
+      const removeData = {
+        userFrom: currentUser?._id,
         mealId: favoriteMeal.mealId,
       };
 
@@ -109,10 +98,8 @@ const FavoritePage = () => {
   }
 
   if (!currentUser) {
-    let res = window.confirm("You need to login, Would you like to login?");
-    if (res) {
-      history.push("/login");
-    } else history.push("/");
+    const res = window.confirm("You need to login, Would you like to login?");
+    res ? history.push("/login") : history.push("/");
   }
 
   return (
